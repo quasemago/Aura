@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DATABASE_URL_HOST:jdbc:postgresql://localhost:5432/aurabot}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:123456}
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: false
+    hibernate:
+      ddl-auto: update
+  application:
+    name: aura.client
+
+discord:
+  bot-ownerId: ${BOT_OWNERID}
+  bot-id: ${BOT_ID}
+  bot-token: ${BOT_TOKEN}
+  bot-presence-type: 3
+  bot-presence-msg: Globo Rural
