@@ -23,9 +23,13 @@ public class ServerGuild {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Column(name = "guild_id", nullable = false, unique = true)
-    private String guildId;
+    private Long guildId;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public ServerGuild(Long guildId) {
+        this.guildId = guildId;
+    }
 }

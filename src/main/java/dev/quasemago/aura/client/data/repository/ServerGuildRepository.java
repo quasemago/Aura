@@ -11,5 +11,7 @@ import java.util.Optional;
 public interface ServerGuildRepository extends JpaRepository<ServerGuild, String> {
     @Nonnull
     Optional<ServerGuild> findById(@Nonnull String id);
+
+    Optional<ServerGuild> findByGuildId(Long guildId);
 }
 
