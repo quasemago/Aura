@@ -29,13 +29,9 @@ public class DiscordClientConfig {
     private String botPresenceMsg;
 
     @Bean
-    public DiscordClient discordClient() {
-        return DiscordClient.create(botToken);
-    }
-
-    @Bean
-    public GatewayDiscordClient gatewayDiscordClient(final DiscordClient discordClient) {
-        final var gateway = discordClient.gateway()
+    public GatewayDiscordClient gatewayDiscordClient() {
+        final var gateway = DiscordClient.create(botToken)
+                .gateway()
                 .setEnabledIntents(IntentSet.all())
                 .setInitialPresence(shard -> ClientPresence
                         .online(ClientActivity.of(Activity.Type.of(botPresenceType), botPresenceMsg, null)))
