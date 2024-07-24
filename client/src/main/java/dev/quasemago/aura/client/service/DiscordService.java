@@ -43,14 +43,12 @@ public class DiscordService {
             cmdRequests.add(cmd.getCommand());
         }
 
-        final var applicationService = client.getApplicationService();
-        client.getApplicationId()
-                .subscribe(appId -> {
-                    applicationService.bulkOverwriteGlobalApplicationCommand(appId, cmdRequests)
-                            .doOnNext(command -> Logger.log.info("Registered global command: {}", command.name()))
-                            .doOnError(error -> Logger.log.error("Failed to register global command: {}", error.getMessage()))
-                            .subscribe();
-                });
+        final var applicationId = client.getApplicationId().block();
+        client.getApplicationService()
+                .bulkOverwriteGlobalApplicationCommand(applicationId, cmdRequests)
+                .doOnNext(cmd -> Logger.log.info("Registered command: {}", cmd.name()))
+                .doOnError(err -> Logger.log.error("Error while registering command: {}", err.getMessage()))
+                .subscribe();
     }
 
     private void registerEvents() {

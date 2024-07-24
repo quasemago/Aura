@@ -41,16 +41,18 @@ public class SlashCommandEvent extends AbstractEventListener<ChatInputInteractio
                     if (hasPermission) {
                         return command.execute(event, author);
                     } else {
-                        return event.createFollowup("You don't have permission to use this command.")
-                                .withEphemeral(true)
-                                .then();
+                        return event.deferReply()
+                                .then(event.createFollowup("You don't have permission to use this command.")
+                                        .withEphemeral(true)
+                                        .then());
                     }
                 })
                 .onErrorResume(err -> {
                     Logger.log.error("Error while executing slash command {}: {}", event.getCommandName(), err.getMessage());
-                    return event.createFollowup("Error while executing slash command " + event.getCommandName())
-                            .withEphemeral(true)
-                            .then();
+                    return event.deferReply()
+                            .then(event.createFollowup("An error occurred while executing the command.")
+                                    .withEphemeral(true)
+                                    .then());
                 });
     }
 }
