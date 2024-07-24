@@ -2,6 +2,7 @@ package dev.quasemago.aura.client.events.impl;
 
 import dev.quasemago.aura.client.commands.SlashCommand;
 import dev.quasemago.aura.client.events.AbstractEventListener;
+import dev.quasemago.aura.client.util.DiscordHelpers;
 import dev.quasemago.aura.client.util.Logger;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import org.springframework.stereotype.Component;
@@ -32,14 +33,22 @@ public class SlashCommandEvent extends AbstractEventListener<ChatInputInteractio
                     .then();
         }
 
-        try {
-            // TODO: Check user permissions.
-            return command.execute(event);
-        } catch (Exception e) {
-            Logger.log.error("Error while executing slash command {}: {}", event.getCommandName(), e.getMessage());
-            return event.createFollowup("Error while executing slash command " + event.getCommandName())
-                    .withEphemeral(true)
-                    .then();
-        }
+        final var eventInteraction = event.getInteraction();
+        return DiscordHelpers.userHasPermission(eventInteraction.getGuild(), eventInteraction.getUser(), command.permission())
+                .flatMap(hasPermission -> {
+                    if (hasPermission) {
+                        return command.execute(event);
+                    } else {
+                        return event.createFollowup("You don't have permission to use this command.")
+                                .withEphemeral(true)
+                                .then();
+                    }
+                })
+                .onErrorResume(err -> {
+                    Logger.log.error("Error while executing slash command {}: {}", event.getCommandName(), err.getMessage());
+                    return event.createFollowup("Error while executing slash command " + event.getCommandName())
+                            .withEphemeral(true)
+                            .then();
+                });
     }
 }
