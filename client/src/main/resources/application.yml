@@ -20,3 +20,6 @@ discord:
   bot-token: ${BOT_TOKEN}
   bot-presence-type: 3
   bot-presence-msg: Globo Rural
+
+jikan:
+  api-url: https://api.jikan.moe/v4

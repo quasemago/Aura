@@ -4,7 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum CommandCategory {
-    GENERAL("General");
+    GENERAL("General"),
+    SEARCHES("Searches");
 
     private final String name;
 
