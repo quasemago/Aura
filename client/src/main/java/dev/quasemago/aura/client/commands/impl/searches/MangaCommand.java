@@ -108,7 +108,7 @@ public class MangaCommand implements SlashCommand {
         return ApplicationCommandRequest.builder()
                 .name(name())
                 .description(description())
-                .dmPermission(true)
+                .dmPermission(false)
                 .defaultMemberPermissions(String.valueOf(permission().getValue()))
                 .addOption(ApplicationCommandOptionData.builder()
                         .name("title")
