@@ -23,4 +23,9 @@ public class ServerGuildService {
         return repository.findByGuildId(guildId)
                 .orElseGet(() -> createServerGuild(new ServerGuild(guildId)));
     }
+
+    @Transactional
+    public void deleteGuild(Long guildId) {
+        repository.deleteByGuildId(guildId);
+    }
 }

@@ -13,5 +13,7 @@ public interface ServerGuildRepository extends JpaRepository<ServerGuild, String
     Optional<ServerGuild> findById(@Nonnull String id);
 
     Optional<ServerGuild> findByGuildId(Long guildId);
+
+    void deleteByGuildId(Long guildId);
 }
 
