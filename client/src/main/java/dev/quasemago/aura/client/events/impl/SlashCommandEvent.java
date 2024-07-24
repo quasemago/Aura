@@ -34,10 +34,12 @@ public class SlashCommandEvent extends AbstractEventListener<ChatInputInteractio
         }
 
         final var eventInteraction = event.getInteraction();
-        return DiscordHelpers.userHasPermission(eventInteraction.getGuild(), eventInteraction.getUser(), command.permission())
+        final var author = eventInteraction.getUser();
+
+        return DiscordHelpers.userHasPermission(eventInteraction.getGuild(), author, command.permission())
                 .flatMap(hasPermission -> {
                     if (hasPermission) {
-                        return command.execute(event);
+                        return command.execute(event, author);
                     } else {
                         return event.createFollowup("You don't have permission to use this command.")
                                 .withEphemeral(true)
