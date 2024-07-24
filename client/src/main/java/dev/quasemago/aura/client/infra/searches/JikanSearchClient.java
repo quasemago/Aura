@@ -1,9 +1,11 @@
 package dev.quasemago.aura.client.infra.searches;
 
 import dev.quasemago.aura.client.infra.searches.dto.AnimeSearchResponseDTO;
+import dev.quasemago.aura.client.infra.searches.dto.MalSearchResponseDTO;
 import dev.quasemago.aura.client.infra.searches.dto.MangaSearchResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
@@ -20,4 +22,7 @@ public interface JikanSearchClient {
     MangaSearchResponseDTO getMangaByTitle(@RequestParam("q") String title,
                                            @RequestParam("limit") int limit,
                                            @RequestParam("sfw") boolean sfw);
+
+    @GetMapping("/users/{username}/full")
+    MalSearchResponseDTO getMalUserByName(@PathVariable("username") String username);
 }
