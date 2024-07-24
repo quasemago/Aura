@@ -1,5 +1,6 @@
-package dev.quasemago.aura.client.commands.impl;
+package dev.quasemago.aura.client.commands.impl.general;
 
+import dev.quasemago.aura.client.commands.CommandCategory;
 import dev.quasemago.aura.client.commands.SlashCommand;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.entity.User;
@@ -39,4 +40,11 @@ public class PingCommand implements SlashCommand {
                 .defaultMemberPermissions(String.valueOf(permission().getValue()))
                 .build();
     }
+
+    @Override
+    public CommandCategory getCategory() {
+        return CommandCategory.GENERAL;
+    }
+
+
 }

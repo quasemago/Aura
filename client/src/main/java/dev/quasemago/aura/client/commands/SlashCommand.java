@@ -16,4 +16,6 @@ public interface SlashCommand {
     Permission permission();
 
     ApplicationCommandRequest getCommand();
+
+    CommandCategory getCategory();
 }
