@@ -42,34 +42,29 @@ public class MangaCommand implements SlashCommand {
         return event.deferReply()
                 .then(Mono.fromCallable(() -> jikanSearchClient.getMangaByTitle(titleStr, 1, true))
                         .flatMap(mangaResponse -> {
-                            if (mangaResponse == null || mangaResponse.data() == null || mangaResponse.data().isEmpty()) {
+                            if (mangaResponse == null || mangaResponse.getData() == null || mangaResponse.getData().isEmpty()) {
                                 return event.editReply("No manga was found with the title: `" + titleStr + "`").then();
                             }
 
-                            final var mangaData = mangaResponse.data().get(0);
+                            final var mangaData = mangaResponse.getData().get(0);
 
-                            String genres = joinNames(mangaData.genres().stream().map(MangaSearchResponseDTO.GenreDTO::name).toList());
-                            String authors = joinNames(mangaData.authors().stream().map(MangaSearchResponseDTO.AuthorDTO::name).toList());
-
-                            final var englishTitle = Optional.ofNullable(mangaData.title_english()).orElse("N/A");
-                            final var synopsis = Optional.ofNullable(mangaData.synopsis()).map(s -> s.length() > 450 ? s.substring(0, 450) + "..." : s).orElse("N/A");
-                            final var chapters = Optional.ofNullable(mangaData.chapters()).map(Object::toString).orElse("N/A");
-                            final var score = Optional.ofNullable(mangaData.score()).map(Object::toString).orElse("N/A");
-                            final var rank = Optional.ofNullable(mangaData.rank()).map(Object::toString).orElse("N/A");
-                            final var launchData = Optional.ofNullable(mangaData.published().prop().from().year()).map(Object::toString).orElse("N/A");
+                            final String genres = joinNames(mangaData.getGenres().stream().map(MangaSearchResponseDTO.Genre::getName).toList());
+                            final String authors = joinNames(mangaData.getAuthors().stream().map(MangaSearchResponseDTO.Author::getName).toList());
+                            final String synopsis = Optional.ofNullable(mangaData.getSynopsis()).map(s -> s.length() > 450 ? s.substring(0, 450) + "..." : s).orElse("N/A");
 
                             final var embed = EmbedCreateSpec.builder()
-                                    .title(mangaData.title())
-                                    .url(mangaData.url())
-                                    .image(mangaData.images().jpg().image_url())
+                                    .title(mangaData.getTitle())
+                                    .url(mangaData.getUrl())
+                                    .image(mangaData.getImages().getJpg().getImage_url())
                                     .color(Color.of(0x00FF00))
                                     .timestamp(Instant.now())
-                                    .description("**English Title:** " + englishTitle + "\n\n**Synopsis:** " + synopsis)
-                                    .addField("Chapters", chapters, true)
-                                    .addField("Type | Status", mangaData.type() + " | " + mangaData.status(), true)
-                                    .addField("Score | Rank", score + " | #" + rank, true)
+                                    .description("**English Title:** " + mangaData.getTitle_english() + "\n\n**Synopsis:** " + synopsis)
+                                    .addField("Chapters", convertToString(mangaData.getChapters()), true)
+                                    .addField("Type | Status", mangaData.getType() + " | " + mangaData.getStatus(), true)
+                                    .addField("Score | Rank", convertToString(mangaData.getScore()) + " | #"
+                                            + mangaData.getRank(), true)
                                     .addField("Genre(s)", genres, true)
-                                    .addField("Aired From", launchData, true)
+                                    .addField("Published", convertToString(mangaData.getPublished().getProp().getFrom().getYear()), true)
                                     .addField("Author(s)", authors, true)
                                     .footer("Requested by " + author.getUsername(), author.getAvatarUrl())
                                     .build();
@@ -86,6 +81,10 @@ public class MangaCommand implements SlashCommand {
 
     private String joinNames(List<String> names) {
         return names == null || names.isEmpty() ? "N/A" : String.join(", ", names);
+    }
+
+    private String convertToString(Object obj) {
+        return Optional.ofNullable(obj).map(Object::toString).orElse("N/A");
     }
 
     @Override

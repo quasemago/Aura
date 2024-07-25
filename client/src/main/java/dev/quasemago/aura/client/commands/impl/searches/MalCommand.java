@@ -40,27 +40,28 @@ public class MalCommand implements SlashCommand {
         return event.deferReply()
                 .then(Mono.fromCallable(() -> jikanSearchClient.getMalUserByName(nameStr))
                         .flatMap(malResponse -> {
-                            if (malResponse == null || malResponse.data() == null) {
+                            if (malResponse == null || malResponse.getData() == null) {
                                 return event.editReply("No user was found with the name: `" + nameStr + "`").then();
                             }
 
-                            final var malData = malResponse.data();
-                            final String lastSession = Optional.ofNullable(malData.last_online()).map(Object::toString).orElse("N/A");
+                            final var malData = malResponse.getData();
+                            final var animeStats = malData.getStatistics().getAnime();
+                            final String lastSession = convertToString(malData.getLast_online());
 
                             final var embed = EmbedCreateSpec.builder()
-                                    .title("MyAnimeList Profile: " + malData.username())
+                                    .title("MyAnimeList Profile: " + malData.getUsername())
                                     .color(Color.of(0x00FF00))
-                                    .url(malData.url())
-                                    .thumbnail(malData.images().jpg().image_url())
+                                    .url(malData.getUrl())
+                                    .thumbnail(malData.getImages().getJpg().getImage_url())
                                     .timestamp(Instant.now())
-                                    .addField(":green_heart: Currently Watching", String.valueOf(malData.statistics().anime().watching()), true)
-                                    .addField(":blue_heart: Completed", String.valueOf(malData.statistics().anime().completed()), true)
-                                    .addField(":yellow_heart: On Hold", String.valueOf(malData.statistics().anime().on_hold()), true)
-                                    .addField(":broken_heart: Dropped", String.valueOf(malData.statistics().anime().dropped()), true)
-                                    .addField(":white_circle: Plan to Watch", String.valueOf(malData.statistics().anime().plan_to_watch()), true)
-                                    .addField(":page_facing_up: Total | Days", malData.statistics().anime().total_entries() + " | " +
-                                            malData.statistics().anime().days_watched(), true)
-                                    .addField(":bar_chart: Mean Score", String.valueOf(malData.statistics().anime().mean_score()), true)
+                                    .addField(":green_heart: Currently Watching", convertToString(animeStats.getWatching()), true)
+                                    .addField(":blue_heart: Completed", convertToString(animeStats.getCompleted()), true)
+                                    .addField(":yellow_heart: On Hold", convertToString(animeStats.getOn_hold()), true)
+                                    .addField(":broken_heart: Dropped", convertToString(animeStats.getDropped()), true)
+                                    .addField(":white_circle: Plan to Watch", convertToString(animeStats.getPlan_to_watch()), true)
+                                    .addField(":page_facing_up: Total | Days", convertToString(animeStats.getTotal_entries()) + " | " +
+                                            animeStats.getDays_watched(), true)
+                                    .addField(":bar_chart: Mean Score", convertToString(animeStats.getMean_score()), true)
                                     .addField(":date: Last Online", lastSession, true)
                                     .footer("Requested by " + author.getUsername(), author.getAvatarUrl())
                                     .build();
@@ -73,6 +74,10 @@ public class MalCommand implements SlashCommand {
                         })
                         .then()
                 );
+    }
+
+    private String convertToString(Object obj) {
+        return Optional.ofNullable(obj).map(Object::toString).orElse("N/A");
     }
 
     @Override

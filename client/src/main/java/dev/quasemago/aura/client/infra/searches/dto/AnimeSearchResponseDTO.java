@@ -1,159 +1,232 @@
 package dev.quasemago.aura.client.infra.searches.dto;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
-public record AnimeSearchResponseDTO(
-        PaginationDTO pagination,
-        List<AnimeDTO> data
-) {
-    public record PaginationDTO(
-            Integer last_visible_page,
-            Boolean has_next_page,
-            Integer current_page,
-            ItemsDTO items
-    ) {
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class AnimeSearchResponseDTO {
+    private Pagination pagination;
+    private List<Anime> data;
+
+    @Getter
+    @Setter
+    public static class Pagination {
+        private Integer last_visible_page;
+        private Boolean has_next_page;
+        private Integer current_page;
+        private Items items;
     }
 
-    public record ItemsDTO(
-            Integer count,
-            Integer total,
-            Integer per_page
-    ) {
+    @Getter
+    @Setter
+    public static class Items {
+        private Integer count;
+        private Integer total;
+        private Integer per_page;
     }
 
-    public record AnimeDTO(
-            Integer mal_id,
-            String url,
-            ImagesDTO images,
-            TrailerDTO trailer,
-            Boolean approved,
-            List<TitleDTO> titles,
-            String title,
-            String title_english,
-            String title_japanese,
-            List<String> title_synonyms,
-            String type,
-            String source,
-            Integer episodes,
-            String status,
-            Boolean airing,
-            AiredDTO aired,
-            String duration,
-            String rating,
-            Double score,
-            Integer scored_by,
-            Integer rank,
-            Integer popularity,
-            Integer members,
-            Integer favorites,
-            String synopsis,
-            String background,
-            String season,
-            Integer year,
-            BroadcastDTO broadcast,
-            List<ProducerDTO> producers,
-            List<ProducerDTO> licensors,
-            List<ProducerDTO> studios,
-            List<GenreDTO> genres,
-            List<ThemeDTO> themes,
-            List<DemographicDTO> demographics
-    ) {
+    @Getter
+    @Setter
+    public static class Anime {
+        private Integer mal_id;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
+        private Images images;
+        private Trailer trailer;
+        private Boolean approved;
+        private List<Title> titles;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String title = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String title_english = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String title_japanese = "N/A";
+        private List<String> title_synonyms;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String type = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String source = "N/A";
+        private Integer episodes;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String status = "N/A";
+        private Boolean airing;
+        private Aired aired;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String duration = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String rating = "N/A";
+        private Double score;
+        private Integer scored_by;
+        private Integer rank;
+        private Integer popularity;
+        private Integer members;
+        private Integer favorites;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String synopsis = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String background = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String season = "N/A";
+        private Integer year;
+        private Broadcast broadcast;
+        private List<Producer> producers;
+        private List<Producer> licensors;
+        private List<Producer> studios;
+        private List<Genre> genres;
+        private List<Theme> themes;
+        private List<Demographic> demographics;
     }
 
-    public record ImagesDTO(
-            ImageFormatDTO jpg,
-            ImageFormatDTO webp
-    ) {
+    @Getter
+    @Setter
+    public static class Images {
+        private ImageFormat jpg;
+        private ImageFormat webp;
     }
 
-    public record ImageFormatDTO(
-            String image_url,
-            String small_image_url,
-            String large_image_url
-    ) {
+    @Getter
+    @Setter
+    public static class ImageFormat {
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String image_url = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String small_image_url = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String large_image_url = "N/A";
     }
 
-    public record TrailerDTO(
-            String youtube_id,
-            String url,
-            String embed_url,
-            TrailerImagesDTO images
-    ) {
+    @Getter
+    @Setter
+    public static class Trailer {
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String youtube_id = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String embed_url = "N/A";
+        private TrailerImages images;
     }
 
-    public record TrailerImagesDTO(
-            String image_url,
-            String small_image_url,
-            String medium_image_url,
-            String large_image_url,
-            String maximum_image_url
-    ) {
+    @Getter
+    @Setter
+    public static class TrailerImages {
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String image_url = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String small_image_url = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String medium_image_url = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String large_image_url = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String maximum_image_url = "N/A";
     }
 
-    public record TitleDTO(
-            String type,
-            String title
-    ) {
+    @Getter
+    @Setter
+    public static class Title {
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String type = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String title = "N/A";
     }
 
-    public record AiredDTO(
-            String from,
-            String to,
-            PropDTO prop,
-            String string
-    ) {
+    @Getter
+    @Setter
+    public static class Aired {
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String from = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String to = "N/A";
+        private Prop prop;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String string = "N/A";
     }
 
-    public record PropDTO(
-            FromToDTO from,
-            FromToDTO to
-    ) {
+    @Getter
+    @Setter
+    public static class Prop {
+        private FromTo from;
+        private FromTo to;
     }
 
-    public record FromToDTO(
-            Integer day,
-            Integer month,
-            Integer year
-    ) {
+    @Getter
+    @Setter
+    public static class FromTo {
+        private Integer day;
+        private Integer month;
+        private Integer year;
     }
 
-    public record BroadcastDTO(
-            String day,
-            String time,
-            String timezone,
-            String string
-    ) {
+    @Getter
+    @Setter
+    public static class Broadcast {
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String day = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String time = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String timezone = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String string = "N/A";
     }
 
-    public record ProducerDTO(
-            Integer mal_id,
-            String type,
-            String name,
-            String url
-    ) {
+    @Getter
+    @Setter
+    public static class Producer {
+        @JsonSetter(nulls = Nulls.SKIP)
+        private Integer mal_id = 0;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String type = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String name = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
     }
 
-    public record GenreDTO(
-            Integer mal_id,
-            String type,
-            String name,
-            String url
-    ) {
+    @Getter
+    @Setter
+    public static class Genre {
+        private Integer mal_id;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String type = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String name = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
     }
 
-    public record ThemeDTO(
-            Integer mal_id,
-            String type,
-            String name,
-            String url
-    ) {
+    @Getter
+    @Setter
+    public static class Theme {
+        private Integer mal_id;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String type = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String name = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
     }
 
-    public record DemographicDTO(
-            Integer mal_id,
-            String type,
-            String name,
-            String url
-    ) {
+    @Getter
+    @Setter
+    public static class Demographic {
+        private Integer mal_id;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String type = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String name = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
     }
 }
+

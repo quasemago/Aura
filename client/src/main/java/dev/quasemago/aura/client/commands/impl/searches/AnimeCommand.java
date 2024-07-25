@@ -42,36 +42,31 @@ public class AnimeCommand implements SlashCommand {
         return event.deferReply()
                 .then(Mono.fromCallable(() -> jikanSearchClient.getAnimeByTitle(titleStr, 1, true))
                         .flatMap(animeResponse -> {
-                            if (animeResponse == null || animeResponse.data() == null || animeResponse.data().isEmpty()) {
+                            if (animeResponse == null || animeResponse.getData() == null || animeResponse.getData().isEmpty()) {
                                 return event.editReply("No anime was found with the title: `" + titleStr + "`").then();
                             }
 
-                            final var animeData = animeResponse.data().get(0);
+                            final var animeData = animeResponse.getData().get(0);
 
-                            String genres = joinNames(animeData.genres().stream().map(AnimeSearchResponseDTO.GenreDTO::name).toList());
-                            String studios = joinNames(animeData.studios().stream().map(AnimeSearchResponseDTO.ProducerDTO::name).toList());
-
-                            final var englishTitle = Optional.ofNullable(animeData.title_english()).orElse("N/A");
-                            final var synopsis = Optional.ofNullable(animeData.synopsis()).map(s -> s.length() > 450 ? s.substring(0, 450) + "..." : s).orElse("N/A");
-                            final var trailer = Optional.ofNullable(animeData.trailer().url()).orElse("N/A");
-                            final var episodes = Optional.ofNullable(animeData.episodes()).map(Object::toString).orElse("N/A");
-                            final var score = Optional.ofNullable(animeData.score()).map(Object::toString).orElse("N/A");
-                            final var rank = Optional.ofNullable(animeData.rank()).map(Object::toString).orElse("N/A");
-                            final var airedFrom = Optional.ofNullable(animeData.aired().prop().from().year()).map(Object::toString).orElse("N/A");
-                            final var season = Optional.ofNullable(animeData.season()).orElse("N/A");
+                            final String genres = joinNames(animeData.getGenres().stream().map(AnimeSearchResponseDTO.Genre::getName).toList());
+                            final String studios = joinNames(animeData.getStudios().stream().map(AnimeSearchResponseDTO.Producer::getName).toList());
+                            final String synopsis = Optional.ofNullable(animeData.getSynopsis()).map(s -> s.length() > 450 ? s.substring(0, 450) + "..." : s).orElse("N/A");
 
                             final var embed = EmbedCreateSpec.builder()
-                                    .title(animeData.title())
-                                    .url(animeData.url())
-                                    .image(animeData.images().jpg().image_url())
+                                    .title(animeData.getTitle())
+                                    .url(animeData.getUrl())
+                                    .image(animeData.getImages().getJpg().getImage_url())
                                     .color(Color.of(0x00FF00))
                                     .timestamp(Instant.now())
-                                    .description("**English Title:** " + englishTitle + "\n\n**Synopsis:** " + synopsis + "\n\n**Trailer:** " + trailer)
-                                    .addField("Episodes", episodes, true)
-                                    .addField("Type | Status", animeData.type() + " | " + animeData.status(), true)
-                                    .addField("Score | Rank", score + " | #" + rank, true)
+                                    .description("**English Title:** " + animeData.getTitle_english() + "\n\n**Synopsis:** " + synopsis
+                                            + "\n\n**Trailer:** " + animeData.getTrailer().getUrl())
+                                    .addField("Episodes", convertToString(animeData.getEpisodes()), true)
+                                    .addField("Type | Status", animeData.getType() + " | " + animeData.getStatus(), true)
+                                    .addField("Score | Rank", convertToString(animeData.getScore()) + " | #"
+                                            + convertToString(animeData.getRank()), true)
                                     .addField("Genre(s)", genres, true)
-                                    .addField("Aired From", airedFrom + " | " + season, true)
+                                    .addField("Aired", convertToString(animeData.getAired().getProp().getFrom().getYear())
+                                            + " | " + animeData.getSeason(), true)
                                     .addField("Studio(s)", studios, true)
                                     .footer("Requested by " + author.getUsername(), author.getAvatarUrl())
                                     .build();
@@ -88,6 +83,10 @@ public class AnimeCommand implements SlashCommand {
 
     private String joinNames(List<String> names) {
         return names == null || names.isEmpty() ? "N/A" : String.join(", ", names);
+    }
+
+    private String convertToString(Object obj) {
+        return Optional.ofNullable(obj).map(Object::toString).orElse("N/A");
     }
 
     @Override

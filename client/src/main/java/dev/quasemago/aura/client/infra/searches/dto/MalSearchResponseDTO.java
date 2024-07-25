@@ -1,163 +1,220 @@
 package dev.quasemago.aura.client.infra.searches.dto;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
-public record MalSearchResponseDTO(
-        UserProfileDTO data
-) {
-    public record UserProfileDTO(
-            Integer mal_id,
-            String username,
-            String url,
-            ImagesDTO images,
-            String last_online,
-            String gender,
-            String birthday,
-            String location,
-            String joined,
-            StatisticsDTO statistics,
-            FavoritesDTO favorites,
-            UpdatesDTO updates,
-            String about,
-            List<ExternalLinkDTO> external
-    ) {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class MalSearchResponseDTO {
+    private UserProfile data;
+
+    @Getter
+    @Setter
+    public static class UserProfile {
+        private Integer mal_id;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String username = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
+        private Images images;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String last_online = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String gender = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String birthday = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String location = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String joined = "N/A";
+        private Statistics statistics;
+        private Favorites favorites;
+        private Updates updates;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String about = "N/A";
+        private List<ExternalLink> external;
     }
 
-    public record ImagesDTO(
-            ImageFormatDTO jpg,
-            ImageFormatDTO webp
-    ) {
+    @Getter
+    @Setter
+    public static class Images {
+        private ImageFormat jpg;
+        private ImageFormat webp;
     }
 
-    public record ImageFormatDTO(
-            String image_url
-    ) {
+    @Getter
+    @Setter
+    public static class ImageFormat {
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String image_url = "N/A";
     }
 
-    public record StatisticsDTO(
-            AnimeStatsDTO anime,
-            MangaStatsDTO manga
-    ) {
+    @Getter
+    @Setter
+    public static class Statistics {
+        private AnimeStats anime;
+        private MangaStats manga;
     }
 
-    public record AnimeStatsDTO(
-            Double days_watched,
-            Double mean_score,
-            Integer watching,
-            Integer completed,
-            Integer on_hold,
-            Integer dropped,
-            Integer plan_to_watch,
-            Integer total_entries,
-            Integer rewatched,
-            Integer episodes_watched
-    ) {
+    @Getter
+    @Setter
+    public static class AnimeStats {
+        private Double days_watched;
+        private Double mean_score;
+        private Integer watching;
+        private Integer completed;
+        private Integer on_hold;
+        private Integer dropped;
+        private Integer plan_to_watch;
+        private Integer total_entries;
+        private Integer rewatched;
+        private Integer episodes_watched;
     }
 
-    public record MangaStatsDTO(
-            Double days_read,
-            Double mean_score,
-            Integer reading,
-            Integer completed,
-            Integer on_hold,
-            Integer dropped,
-            Integer plan_to_read,
-            Integer total_entries,
-            Integer reread,
-            Integer chapters_read,
-            Integer volumes_read
-    ) {
+    @Getter
+    @Setter
+    public static class MangaStats {
+        private Double days_read;
+        private Double mean_score;
+        private Integer reading;
+        private Integer completed;
+        private Integer on_hold;
+        private Integer dropped;
+        private Integer plan_to_read;
+        private Integer total_entries;
+        private Integer reread;
+        private Integer chapters_read;
+        private Integer volumes_read;
     }
 
-    public record FavoritesDTO(
-            List<FavoriteAnimeDTO> anime,
-            List<FavoriteMangaDTO> manga,
-            List<FavoriteCharacterDTO> characters,
-            List<FavoritePeopleDTO> people
-    ) {
+    @Getter
+    @Setter
+    public static class Favorites {
+        private List<FavoriteAnime> anime;
+        private List<FavoriteManga> manga;
+        private List<FavoriteCharacter> characters;
+        private List<FavoritePeople> people;
     }
 
-    public record FavoriteAnimeDTO(
-            Integer mal_id,
-            String url,
-            ImagesDTO images,
-            String title,
-            String type,
-            Integer start_year
-    ) {
+    @Getter
+    @Setter
+    public static class FavoriteAnime {
+        private Integer mal_id;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
+        private Images images;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String title = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String type = "N/A";
+        private Integer start_year;
     }
 
-    public record FavoriteMangaDTO(
-            Integer mal_id,
-            String url,
-            ImagesDTO images,
-            String title,
-            String type,
-            Integer start_year
-    ) {
+    @Getter
+    @Setter
+    public static class FavoriteManga {
+        private Integer mal_id;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
+        private Images images;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String title = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String type = "N/A";
+        private Integer start_year;
     }
 
-    public record FavoriteCharacterDTO(
-            Integer mal_id,
-            String url,
-            ImagesDTO images,
-            String name
-    ) {
+    @Getter
+    @Setter
+    public static class FavoriteCharacter {
+        private Integer mal_id;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
+        private Images images;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String name = "N/A";
     }
 
-    public record FavoritePeopleDTO(
-            Integer mal_id,
-            String url,
-            ImagesDTO images,
-            String name
-    ) {
+    @Getter
+    @Setter
+    public static class FavoritePeople {
+        private Integer mal_id;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
+        private Images images;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String name = "N/A";
     }
 
-    public record UpdatesDTO(
-            List<AnimeUpdateDTO> anime,
-            List<MangaUpdateDTO> manga
-    ) {
+    @Getter
+    @Setter
+    public static class Updates {
+        private List<AnimeUpdate> anime;
+        private List<MangaUpdate> manga;
     }
 
-    public record AnimeUpdateDTO(
-            AnimeEntryDTO entry,
-            Double score,
-            String status,
-            Integer episodes_seen,
-            Integer episodes_total,
-            String date
-    ) {
+    @Getter
+    @Setter
+    public static class AnimeUpdate {
+        private AnimeEntry entry;
+        private Double score;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String status = "N/A";
+        private Integer episodes_seen;
+        private Integer episodes_total;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String date = "N/A";
     }
 
-    public record MangaUpdateDTO(
-            MangaEntryDTO entry,
-            Double score,
-            String status,
-            Integer chapters_read,
-            Integer chapters_total,
-            String date
-    ) {
+    @Getter
+    @Setter
+    public static class MangaUpdate {
+        private MangaEntry entry;
+        private Double score;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String status = "N/A";
+        private Integer chapters_read;
+        private Integer chapters_total;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String date = "N/A";
     }
 
-    public record AnimeEntryDTO(
-            Integer mal_id,
-            String url,
-            ImagesDTO images,
-            String title
-    ) {
+    @Getter
+    @Setter
+    public static class AnimeEntry {
+        private Integer mal_id;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
+        private Images images;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String title = "N/A";
     }
 
-    public record MangaEntryDTO(
-            Integer mal_id,
-            String url,
-            ImagesDTO images,
-            String title
-    ) {
+    @Getter
+    @Setter
+    public static class MangaEntry {
+        private Integer mal_id;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
+        private Images images;
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String title = "N/A";
     }
 
-    public record ExternalLinkDTO(
-            String name,
-            String url
-    ) {
+    @Getter
+    @Setter
+    public static class ExternalLink {
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String name = "N/A";
+        @JsonSetter(nulls = Nulls.SKIP)
+        private String url = "N/A";
     }
 }
