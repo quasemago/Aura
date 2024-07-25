@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${DATABASE_URL_HOST:jdbc:postgresql://localhost:5432/aurabot}
-    username: ${DATABASE_USERNAME:postgres}
-    password: ${DATABASE_PASSWORD:123456}
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     show-sql: true
     properties:
@@ -13,6 +13,10 @@ spring:
       ddl-auto: update
   application:
     name: aura.client
+  redis:
+    standalone:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
 discord:
   bot-ownerId: ${BOT_OWNERID}
