@@ -1,10 +1,10 @@
-FROM eclipse-temurin:17-jdk AS build
+FROM maven:3.9.8-eclipse-temurin-17 AS build
 WORKDIR /app
 
 COPY . .
-RUN --mount=type=cache,target=/root/.m2,rw ./mvnw clean package -DskipTests
+RUN --mount=type=cache,target=/root/.m2,rw mvn clean package -DskipTests
 
-FROM openjdk:17
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
 COPY --from=build /app/target/*.jar ./app.jar
