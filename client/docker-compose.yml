@@ -1,0 +1,57 @@
+version: '3.9'
+services:
+  cache:
+    container_name: redis-cache
+    image: redis:latest
+    restart: unless-stopped
+    command: ["redis-server", "--bind", "cache", "--port", "6379"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - cache:/data
+    networks:
+      - auranetwork
+  db:
+    container_name: postgres-db
+    image: postgres:16.3
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - auranetwork
+  bot:
+    container_name: aura-bot
+    build: .
+    restart: unless-stopped
+    environment:
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      BOT_ID: ${BOT_ID}
+      BOT_TOKEN: ${BOT_TOKEN}
+      BOT_OWNERID: ${BOT_OWNERID}
+    volumes:
+      - ${LOGS_PATH}:/app/logs
+    networks:
+      - auranetwork
+    depends_on:
+      - cache
+      - db
+volumes:
+  cache:
+    driver: local
+  db:
+    driver: local
+networks:
+  auranetwork:
+    driver: bridge
