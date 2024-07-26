@@ -1,6 +1,6 @@
 package dev.quasemago.aura.client.config;
 
-import dev.quasemago.aura.client.util.Logger;
+import dev.quasemago.aura.client.shared.util.Logger;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.presence.Activity;
