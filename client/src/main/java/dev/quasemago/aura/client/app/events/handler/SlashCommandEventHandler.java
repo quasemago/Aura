@@ -22,7 +22,7 @@ public class SlashCommandEventHandler extends AbstractEventListener<ChatInputInt
     @Override
     public Mono<Void> execute(ChatInputInteractionEvent event) {
         final var command = commandList.stream()
-                .filter(c -> c.name().equals(event.getCommandName()))
+                .filter(c -> c.getName().equals(event.getCommandName()))
                 .findFirst()
                 .orElse(null);
 
@@ -36,13 +36,13 @@ public class SlashCommandEventHandler extends AbstractEventListener<ChatInputInt
         final var eventInteraction = event.getInteraction();
         final var author = eventInteraction.getUser();
 
-        return DiscordHelpers.userHasPermission(eventInteraction.getGuild(), author, command.permission())
+        return DiscordHelpers.userHasPermission(eventInteraction.getGuild(), author, command.getPermission())
                 .flatMap(hasPermission -> {
                     if (hasPermission) {
                         return command.execute(event, author);
                     } else {
                         return event.deferReply()
-                                .then(event.createFollowup("You don't have permission to use this command.")
+                                .then(event.createFollowup("You don't have getPermission to use this command.")
                                         .withEphemeral(true)
                                         .then());
                     }

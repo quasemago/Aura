@@ -11,7 +11,6 @@ import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.discordjson.json.ApplicationCommandOptionData;
 import discord4j.discordjson.json.ApplicationCommandRequest;
 import discord4j.rest.util.Color;
-import discord4j.rest.util.Permission;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -41,7 +40,7 @@ public class MalCommand implements SlashCommand {
                 .then(Mono.fromCallable(() -> jikanSearchClient.getMalUserByName(nameStr))
                         .flatMap(malResponse -> {
                             if (malResponse == null || malResponse.getData() == null) {
-                                return event.editReply("No user was found with the name: `" + nameStr + "`").then();
+                                return event.editReply("No user was found with the getName: `" + nameStr + "`").then();
                             }
 
                             final var malData = malResponse.getData();
@@ -81,30 +80,25 @@ public class MalCommand implements SlashCommand {
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return "mal";
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "Search for a user's MyAnimeList profile.";
-    }
-
-    @Override
-    public Permission permission() {
-        return Permission.SEND_MESSAGES;
     }
 
     @Override
     public ApplicationCommandRequest getCommand() {
         return ApplicationCommandRequest.builder()
-                .name(name())
-                .description(description())
+                .name(getName())
+                .description(getDescription())
                 .dmPermission(false)
-                .defaultMemberPermissions(String.valueOf(permission().getValue()))
+                .defaultMemberPermissions(String.valueOf(getPermission().getValue()))
                 .addOption(ApplicationCommandOptionData.builder()
                         .name("name")
-                        .description("The name of the user.")
+                        .description("The getName of the user.")
                         .type(ApplicationCommandOption.Type.STRING.getValue())
                         .required(true)
                         .build())

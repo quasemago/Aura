@@ -5,7 +5,6 @@ import dev.quasemago.aura.client.app.commands.SlashCommand;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.entity.User;
 import discord4j.discordjson.json.ApplicationCommandRequest;
-import discord4j.rest.util.Permission;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -17,27 +16,22 @@ public class PingCommand implements SlashCommand {
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return "ping";
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "Ping Pong";
-    }
-
-    @Override
-    public Permission permission() {
-        return Permission.SEND_MESSAGES;
     }
 
     @Override
     public ApplicationCommandRequest getCommand() {
         return ApplicationCommandRequest.builder()
-                .name(name())
-                .description(description())
+                .name(getName())
+                .description(getDescription())
                 .dmPermission(false)
-                .defaultMemberPermissions(String.valueOf(permission().getValue()))
+                .defaultMemberPermissions(String.valueOf(getPermission().getValue()))
                 .build();
     }
 

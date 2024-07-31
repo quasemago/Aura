@@ -8,7 +8,6 @@ import discord4j.core.object.entity.User;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.discordjson.json.ApplicationCommandRequest;
 import discord4j.rest.util.Color;
-import discord4j.rest.util.Permission;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -47,27 +46,22 @@ public class AboutCommand implements SlashCommand {
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return "about";
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "Help command with information about the bot.";
-    }
-
-    @Override
-    public Permission permission() {
-        return Permission.SEND_MESSAGES;
     }
 
     @Override
     public ApplicationCommandRequest getCommand() {
         return ApplicationCommandRequest.builder()
-                .name(name())
-                .description(description())
+                .name(getName())
+                .description(getDescription())
                 .dmPermission(true)
-                .defaultMemberPermissions(String.valueOf(permission().getValue()))
+                .defaultMemberPermissions(String.valueOf(getPermission().getValue()))
                 .build();
     }
 

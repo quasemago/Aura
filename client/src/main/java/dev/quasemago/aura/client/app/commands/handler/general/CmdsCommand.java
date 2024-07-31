@@ -8,7 +8,6 @@ import discord4j.core.object.entity.User;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.discordjson.json.ApplicationCommandRequest;
 import discord4j.rest.util.Color;
-import discord4j.rest.util.Permission;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -25,7 +24,7 @@ public class CmdsCommand implements SlashCommand {
     public CmdsCommand(List<SlashCommand> commandList,
                        GatewayDiscordClient gatewayClient) {
         this.commandMap = commandList.stream()
-                .collect(Collectors.toMap(SlashCommand::name, command -> command));
+                .collect(Collectors.toMap(SlashCommand::getName, command -> command));
         this.gatewayClient = gatewayClient;
     }
 
@@ -50,7 +49,7 @@ public class CmdsCommand implements SlashCommand {
 
                     commandsByCategory.forEach((category, commands) -> {
                         final var commandList = commands.stream()
-                                .map(command -> String.format("- `/%s` - %s", command.name(), command.description()))
+                                .map(command -> String.format("- `/%s` - %s", command.getName(), command.getDescription()))
                                 .collect(Collectors.joining("\n"));
                         embed.addField("**" + category.getName() + ":**", commandList, false);
                     });
@@ -67,27 +66,22 @@ public class CmdsCommand implements SlashCommand {
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return "cmds";
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return "View the command list";
-    }
-
-    @Override
-    public Permission permission() {
-        return Permission.SEND_MESSAGES;
     }
 
     @Override
     public ApplicationCommandRequest getCommand() {
         return ApplicationCommandRequest.builder()
-                .name(name())
-                .description(description())
+                .name(getName())
+                .description(getDescription())
                 .dmPermission(false)
-                .defaultMemberPermissions(String.valueOf(permission().getValue()))
+                .defaultMemberPermissions(String.valueOf(getPermission().getValue()))
                 .build();
     }
 

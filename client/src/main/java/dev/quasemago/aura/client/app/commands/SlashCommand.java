@@ -9,11 +9,13 @@ import reactor.core.publisher.Mono;
 public interface SlashCommand {
     Mono<Void> execute(ChatInputInteractionEvent event, User author);
 
-    String name();
+    String getName();
 
-    String description();
+    String getDescription();
 
-    Permission permission();
+    default Permission getPermission() {
+        return Permission.SEND_MESSAGES;
+    }
 
     ApplicationCommandRequest getCommand();
 
