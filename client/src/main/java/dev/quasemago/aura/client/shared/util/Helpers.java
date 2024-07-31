@@ -10,8 +10,8 @@ import reactor.core.publisher.Mono;
 import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DiscordHelpers {
-    public static Mono<Boolean> userHasPermission(Mono<Guild> guild, User user, Permission permission) {
+public class Helpers {
+    public static Mono<Boolean> discordUserHasPermission(Mono<Guild> guild, User user, Permission permission) {
         if (Objects.isNull(user) || Objects.isNull(guild)) {
             return Mono.just(false);
         }

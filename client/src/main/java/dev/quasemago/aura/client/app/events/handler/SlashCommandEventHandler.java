@@ -2,7 +2,7 @@ package dev.quasemago.aura.client.app.events.handler;
 
 import dev.quasemago.aura.client.app.commands.SlashCommand;
 import dev.quasemago.aura.client.app.events.AbstractEventListener;
-import dev.quasemago.aura.client.shared.util.DiscordHelpers;
+import dev.quasemago.aura.client.shared.util.Helpers;
 import dev.quasemago.aura.client.shared.util.Logger;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import org.springframework.stereotype.Component;
@@ -36,7 +36,7 @@ public class SlashCommandEventHandler extends AbstractEventListener<ChatInputInt
         final var eventInteraction = event.getInteraction();
         final var author = eventInteraction.getUser();
 
-        return DiscordHelpers.userHasPermission(eventInteraction.getGuild(), author, command.getPermission())
+        return Helpers.discordUserHasPermission(eventInteraction.getGuild(), author, command.getPermission())
                 .flatMap(hasPermission -> {
                     if (hasPermission) {
                         return command.execute(event, author);
