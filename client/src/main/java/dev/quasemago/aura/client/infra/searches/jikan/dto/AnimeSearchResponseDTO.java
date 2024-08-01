@@ -1,4 +1,4 @@
-package dev.quasemago.aura.client.infra.searches.dto;
+package dev.quasemago.aura.client.infra.searches.jikan.dto;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;

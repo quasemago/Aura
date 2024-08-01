@@ -1,4 +1,4 @@
-package dev.quasemago.aura.client.app.commands;
+package dev.quasemago.aura.client.interfaces.commands;
 
 import lombok.Getter;
 

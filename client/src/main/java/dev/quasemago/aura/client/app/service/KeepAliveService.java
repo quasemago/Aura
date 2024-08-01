@@ -1,4 +1,4 @@
-package dev.quasemago.aura.client.domain.service;
+package dev.quasemago.aura.client.app.service;
 
 import dev.quasemago.aura.client.shared.util.Logger;
 import org.springframework.scheduling.annotation.Scheduled;

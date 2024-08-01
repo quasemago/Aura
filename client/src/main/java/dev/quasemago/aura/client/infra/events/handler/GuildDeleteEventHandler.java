@@ -1,7 +1,7 @@
-package dev.quasemago.aura.client.app.events.handler;
+package dev.quasemago.aura.client.infra.events.handler;
 
-import dev.quasemago.aura.client.app.events.AbstractEventListener;
-import dev.quasemago.aura.client.domain.service.ServerGuildService;
+import dev.quasemago.aura.client.infra.events.AbstractEventListener;
+import dev.quasemago.aura.client.app.service.ServerGuildService;
 import dev.quasemago.aura.client.shared.util.Logger;
 import discord4j.core.event.domain.guild.GuildDeleteEvent;
 import org.springframework.stereotype.Component;

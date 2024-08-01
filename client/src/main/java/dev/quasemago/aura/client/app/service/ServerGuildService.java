@@ -1,4 +1,4 @@
-package dev.quasemago.aura.client.domain.service;
+package dev.quasemago.aura.client.app.service;
 
 import dev.quasemago.aura.client.domain.model.ServerGuild;
 import dev.quasemago.aura.client.domain.repository.ServerGuildRepository;

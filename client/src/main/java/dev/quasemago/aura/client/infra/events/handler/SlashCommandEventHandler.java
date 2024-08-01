@@ -1,7 +1,7 @@
-package dev.quasemago.aura.client.app.events.handler;
+package dev.quasemago.aura.client.infra.events.handler;
 
-import dev.quasemago.aura.client.app.commands.SlashCommand;
-import dev.quasemago.aura.client.app.events.AbstractEventListener;
+import dev.quasemago.aura.client.interfaces.commands.AbstractSlashCommand;
+import dev.quasemago.aura.client.infra.events.AbstractEventListener;
 import dev.quasemago.aura.client.shared.util.Helpers;
 import dev.quasemago.aura.client.shared.util.Logger;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
@@ -13,9 +13,9 @@ import java.util.Objects;
 
 @Component
 public class SlashCommandEventHandler extends AbstractEventListener<ChatInputInteractionEvent> {
-    private final List<SlashCommand> commandList;
+    private final List<AbstractSlashCommand> commandList;
 
-    public SlashCommandEventHandler(List<SlashCommand> commandList) {
+    public SlashCommandEventHandler(List<AbstractSlashCommand> commandList) {
         this.commandList = commandList;
     }
 

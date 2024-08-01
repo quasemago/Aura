@@ -1,8 +1,8 @@
-package dev.quasemago.aura.client.infra.searches;
+package dev.quasemago.aura.client.infra.searches.jikan;
 
-import dev.quasemago.aura.client.infra.searches.dto.AnimeSearchResponseDTO;
-import dev.quasemago.aura.client.infra.searches.dto.MalSearchResponseDTO;
-import dev.quasemago.aura.client.infra.searches.dto.MangaSearchResponseDTO;
+import dev.quasemago.aura.client.infra.searches.jikan.dto.AnimeSearchResponseDTO;
+import dev.quasemago.aura.client.infra.searches.jikan.dto.MalSearchResponseDTO;
+import dev.quasemago.aura.client.infra.searches.jikan.dto.MangaSearchResponseDTO;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

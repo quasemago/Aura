@@ -1,11 +1,10 @@
-package dev.quasemago.aura.client.app.events;
+package dev.quasemago.aura.client.infra.events;
 
 import discord4j.core.event.domain.Event;
 
 import java.lang.reflect.ParameterizedType;
 
 public abstract class AbstractEventListener<T extends Event> implements GenericEventListener<T> {
-
     private final Class<T> eventType;
 
     @SuppressWarnings("unchecked")

@@ -1,7 +1,7 @@
-package dev.quasemago.aura.client.app.commands.handler.general;
+package dev.quasemago.aura.client.interfaces.commands.handler.general;
 
-import dev.quasemago.aura.client.app.commands.CommandCategory;
-import dev.quasemago.aura.client.app.commands.SlashCommand;
+import dev.quasemago.aura.client.interfaces.commands.AbstractSlashCommand;
+import dev.quasemago.aura.client.interfaces.commands.CommandCategory;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.entity.User;
@@ -17,14 +17,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class CmdsCommand implements SlashCommand {
-    private final Map<String, SlashCommand> commandMap;
+public class CmdsCommand extends AbstractSlashCommand {
+    private final Map<String, AbstractSlashCommand> commandMap;
     private final GatewayDiscordClient gatewayClient;
 
-    public CmdsCommand(List<SlashCommand> commandList,
+    public CmdsCommand(List<AbstractSlashCommand> commandList,
                        GatewayDiscordClient gatewayClient) {
         this.commandMap = commandList.stream()
-                .collect(Collectors.toMap(SlashCommand::getName, command -> command));
+                .collect(Collectors.toMap(AbstractSlashCommand::getName, command -> command));
         this.gatewayClient = gatewayClient;
     }
 
@@ -60,9 +60,9 @@ public class CmdsCommand implements SlashCommand {
                 });
     }
 
-    private Map<CommandCategory, List<SlashCommand>> getCommandsByCategory() {
+    private Map<CommandCategory, List<AbstractSlashCommand>> getCommandsByCategory() {
         return commandMap.values().stream()
-                .collect(Collectors.groupingBy(SlashCommand::getCategory));
+                .collect(Collectors.groupingBy(AbstractSlashCommand::getCategory));
     }
 
     @Override

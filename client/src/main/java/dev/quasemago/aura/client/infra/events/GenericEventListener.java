@@ -1,4 +1,4 @@
-package dev.quasemago.aura.client.app.events;
+package dev.quasemago.aura.client.infra.events;
 
 import discord4j.core.event.domain.Event;
 import reactor.core.publisher.Mono;

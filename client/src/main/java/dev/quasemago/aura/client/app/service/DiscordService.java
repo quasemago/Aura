@@ -1,7 +1,7 @@
-package dev.quasemago.aura.client.domain.service;
+package dev.quasemago.aura.client.app.service;
 
-import dev.quasemago.aura.client.app.commands.SlashCommand;
-import dev.quasemago.aura.client.app.events.GenericEventListener;
+import dev.quasemago.aura.client.interfaces.commands.AbstractSlashCommand;
+import dev.quasemago.aura.client.infra.events.GenericEventListener;
 import dev.quasemago.aura.client.shared.util.Logger;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.Event;
@@ -17,12 +17,12 @@ import java.util.List;
 public class DiscordService {
     private final RestClient client;
     private final GatewayDiscordClient gatewayClient;
-    private final List<SlashCommand> commandList;
+    private final List<AbstractSlashCommand> commandList;
     private final List<GenericEventListener<? extends Event>> eventList;
 
     public DiscordService(RestClient client,
                           GatewayDiscordClient gatewayClient,
-                          List<SlashCommand> commandList,
+                          List<AbstractSlashCommand> commandList,
                           List<GenericEventListener<? extends Event>> eventList) {
         this.client = client;
         this.gatewayClient = gatewayClient;
@@ -39,7 +39,7 @@ public class DiscordService {
     private void registerCommands() {
         final List<ApplicationCommandRequest> cmdRequests = new ArrayList<>();
 
-        for (SlashCommand cmd : commandList) {
+        for (AbstractSlashCommand cmd : commandList) {
             cmdRequests.add(cmd.getCommand());
         }
 

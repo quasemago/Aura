@@ -1,7 +1,7 @@
-package dev.quasemago.aura.client.app.commands.handler.general;
+package dev.quasemago.aura.client.interfaces.commands.handler.general;
 
-import dev.quasemago.aura.client.app.commands.CommandCategory;
-import dev.quasemago.aura.client.app.commands.SlashCommand;
+import dev.quasemago.aura.client.interfaces.commands.CommandCategory;
+import dev.quasemago.aura.client.interfaces.commands.AbstractSlashCommand;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.entity.User;
@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 import java.time.Instant;
 
 @Component
-public class AboutCommand implements SlashCommand {
+public class AboutCommand extends AbstractSlashCommand {
     private final GatewayDiscordClient gatewayClient;
 
     public AboutCommand(GatewayDiscordClient gatewayClient) {
