@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.Optional;
 
 import static dev.quasemago.aura.client.shared.util.Helpers.*;
@@ -71,10 +72,9 @@ public class AnimeCommand extends AbstractSlashCommand {
                         .map(AnimeSearchResponseDTO.Producer::getName).toList(),
                 ", ", "N/A");
 
-        return EmbedCreateSpec.builder()
+        final var embed = EmbedCreateSpec.builder()
                 .title(animeData.getTitle())
                 .url(animeData.getUrl())
-                .image(animeData.getImages().getJpg().getImage_url())
                 .color(Color.of(0x00FF00))
                 .timestamp(Instant.now())
                 .description("**English Title:** " + animeData.getTitle_english()
@@ -88,8 +88,14 @@ public class AnimeCommand extends AbstractSlashCommand {
                 .addField("Aired", convertObjectToString(animeData.getAired().getProp().getFrom().getYear(),
                         "N/A") + " | " + animeData.getSeason(), true)
                 .addField("Studio(s)", studios, true)
-                .footer("Requested by " + author.getUsername(), author.getAvatarUrl())
-                .build();
+                .footer("Requested by " + author.getUsername(), author.getAvatarUrl());
+
+        final String thumbnail = animeData.getImages().getJpg().getImage_url();
+        if (!Objects.isNull(thumbnail)) {
+            embed.image(thumbnail);
+        }
+
+        return embed.build();
     }
 
     @Override

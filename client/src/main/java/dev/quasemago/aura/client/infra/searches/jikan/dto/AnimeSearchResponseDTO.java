@@ -38,8 +38,7 @@ public class AnimeSearchResponseDTO {
     @Setter
     public static class Anime {
         private Integer mal_id;
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
         private Images images;
         private Trailer trailer;
         private Boolean approved;
@@ -96,12 +95,9 @@ public class AnimeSearchResponseDTO {
     @Getter
     @Setter
     public static class ImageFormat {
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String image_url = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String small_image_url = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String large_image_url = "N/A";
+        private String image_url;
+        private String small_image_url;
+        private String large_image_url;
     }
 
     @Getter
@@ -109,26 +105,19 @@ public class AnimeSearchResponseDTO {
     public static class Trailer {
         @JsonSetter(nulls = Nulls.SKIP)
         private String youtube_id = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String embed_url = "N/A";
+        private String url;
+        private String embed_url;
         private TrailerImages images;
     }
 
     @Getter
     @Setter
     public static class TrailerImages {
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String image_url = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String small_image_url = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String medium_image_url = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String large_image_url = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String maximum_image_url = "N/A";
+        private String image_url;
+        private String small_image_url;
+        private String medium_image_url;
+        private String large_image_url;
+        private String maximum_image_url;
     }
 
     @Getter
@@ -189,8 +178,7 @@ public class AnimeSearchResponseDTO {
         private String type = "N/A";
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
     }
 
     @Getter
@@ -201,8 +189,7 @@ public class AnimeSearchResponseDTO {
         private String type = "N/A";
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
     }
 
     @Getter
@@ -213,8 +200,7 @@ public class AnimeSearchResponseDTO {
         private String type = "N/A";
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
     }
 
     @Getter
@@ -225,8 +211,7 @@ public class AnimeSearchResponseDTO {
         private String type = "N/A";
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
     }
 }
 

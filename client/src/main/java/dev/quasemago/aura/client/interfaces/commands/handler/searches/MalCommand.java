@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import static dev.quasemago.aura.client.shared.util.Helpers.convertObjectToString;
 import static dev.quasemago.aura.client.shared.util.Helpers.getDiscordCommandArgValue;
@@ -62,12 +63,10 @@ public class MalCommand extends AbstractSlashCommand {
 
     private EmbedCreateSpec buildEmbed(User author, MalSearchResponseDTO.UserProfile malData) {
         final var animeStats = malData.getStatistics().getAnime();
-        final String lastSession = convertObjectToString(malData.getLast_online(), "N/A");
-        return EmbedCreateSpec.builder()
+        final var embed = EmbedCreateSpec.builder()
                 .title("MyAnimeList Profile: " + malData.getUsername())
                 .color(Color.of(0x00FF00))
                 .url(malData.getUrl())
-                .thumbnail(malData.getImages().getJpg().getImage_url())
                 .timestamp(Instant.now())
                 .addField(":green_heart: Currently Watching", convertObjectToString(animeStats.getWatching(),
                         "N/A"), true)
@@ -84,9 +83,17 @@ public class MalCommand extends AbstractSlashCommand {
                         animeStats.getDays_watched(), true)
                 .addField(":bar_chart: Mean Score", convertObjectToString(animeStats.getMean_score(),
                         "N/A"), true)
-                .addField(":date: Last Online", lastSession, true)
-                .footer("Requested by " + author.getUsername(), author.getAvatarUrl())
-                .build();
+                .addField(":date: Last Online", convertObjectToString(malData.getLast_online(),
+                        "N/A"), true)
+                .footer("Requested by " + author.getUsername(), author.getAvatarUrl());
+
+        final String thumbnail = malData.getImages().getJpg().getImage_url();
+        System.out.println("thumbnail: " + thumbnail);
+        if (!Objects.isNull(thumbnail)) {
+            embed.thumbnail(thumbnail);
+        }
+
+        return embed.build();
     }
 
     @Override

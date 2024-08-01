@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.Optional;
 
 import static dev.quasemago.aura.client.shared.util.Helpers.*;
@@ -75,10 +76,9 @@ public class MangaCommand extends AbstractSlashCommand {
                 ", ",
                 "N/A");
 
-        return EmbedCreateSpec.builder()
+        final var embed = EmbedCreateSpec.builder()
                 .title(mangaData.getTitle())
                 .url(mangaData.getUrl())
-                .image(mangaData.getImages().getJpg().getImage_url())
                 .color(Color.of(0x00FF00))
                 .timestamp(Instant.now())
                 .description("**English Title:** " + mangaData.getTitle_english()
@@ -91,8 +91,14 @@ public class MangaCommand extends AbstractSlashCommand {
                 .addField("Published", convertObjectToString(mangaData.getPublished().getProp().getFrom().getYear(),
                         "N/A"), true)
                 .addField("Author(s)", authors, true)
-                .footer("Requested by " + author.getUsername(), author.getAvatarUrl())
-                .build();
+                .footer("Requested by " + author.getUsername(), author.getAvatarUrl());
+
+        final String thumbnail = mangaData.getImages().getJpg().getImage_url();
+        if (!Objects.isNull(thumbnail)) {
+            embed.image(thumbnail);
+        }
+
+        return embed.build();
     }
 
     @Override

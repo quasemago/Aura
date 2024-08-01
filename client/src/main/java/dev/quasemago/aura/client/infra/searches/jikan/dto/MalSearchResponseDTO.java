@@ -22,8 +22,7 @@ public class MalSearchResponseDTO {
         private Integer mal_id;
         @JsonSetter(nulls = Nulls.SKIP)
         private String username = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
         private Images images;
         @JsonSetter(nulls = Nulls.SKIP)
         private String last_online = "N/A";
@@ -53,8 +52,7 @@ public class MalSearchResponseDTO {
     @Getter
     @Setter
     public static class ImageFormat {
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String image_url = "N/A";
+        private String image_url;
     }
 
     @Getter
@@ -108,8 +106,7 @@ public class MalSearchResponseDTO {
     @Setter
     public static class FavoriteAnime {
         private Integer mal_id;
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
         private Images images;
         @JsonSetter(nulls = Nulls.SKIP)
         private String title = "N/A";
@@ -122,8 +119,7 @@ public class MalSearchResponseDTO {
     @Setter
     public static class FavoriteManga {
         private Integer mal_id;
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
         private Images images;
         @JsonSetter(nulls = Nulls.SKIP)
         private String title = "N/A";
@@ -136,8 +132,7 @@ public class MalSearchResponseDTO {
     @Setter
     public static class FavoriteCharacter {
         private Integer mal_id;
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
         private Images images;
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
@@ -147,8 +142,7 @@ public class MalSearchResponseDTO {
     @Setter
     public static class FavoritePeople {
         private Integer mal_id;
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
         private Images images;
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
@@ -191,8 +185,7 @@ public class MalSearchResponseDTO {
     @Setter
     public static class AnimeEntry {
         private Integer mal_id;
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
         private Images images;
         @JsonSetter(nulls = Nulls.SKIP)
         private String title = "N/A";
@@ -202,8 +195,7 @@ public class MalSearchResponseDTO {
     @Setter
     public static class MangaEntry {
         private Integer mal_id;
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
         private Images images;
         @JsonSetter(nulls = Nulls.SKIP)
         private String title = "N/A";
@@ -214,7 +206,6 @@ public class MalSearchResponseDTO {
     public static class ExternalLink {
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
     }
 }

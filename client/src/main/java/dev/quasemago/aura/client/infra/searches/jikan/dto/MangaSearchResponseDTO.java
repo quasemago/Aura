@@ -34,8 +34,7 @@ public class MangaSearchResponseDTO {
     @Setter
     public static class Manga {
         private Integer mal_id;
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
         private Images images;
         private Boolean approved;
         private List<Title> titles;
@@ -82,12 +81,9 @@ public class MangaSearchResponseDTO {
     @Getter
     @Setter
     public static class ImageFormat {
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String image_url = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String small_image_url = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String large_image_url = "N/A";
+        private String image_url;
+        private String small_image_url;
+        private String large_image_url;
     }
 
     @Getter
@@ -134,8 +130,7 @@ public class MangaSearchResponseDTO {
         private String type = "N/A";
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
     }
 
     @Getter
@@ -146,8 +141,7 @@ public class MangaSearchResponseDTO {
         private String type = "N/A";
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
     }
 
     @Getter
@@ -158,8 +152,7 @@ public class MangaSearchResponseDTO {
         private String type = "N/A";
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
     }
 
     @Getter
@@ -170,8 +163,7 @@ public class MangaSearchResponseDTO {
         private String type = "N/A";
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
     }
 
     @Getter
@@ -182,7 +174,6 @@ public class MangaSearchResponseDTO {
         private String type = "N/A";
         @JsonSetter(nulls = Nulls.SKIP)
         private String name = "N/A";
-        @JsonSetter(nulls = Nulls.SKIP)
-        private String url = "N/A";
+        private String url;
     }
 }
