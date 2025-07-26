@@ -26,6 +26,18 @@ export class Settings {
     return Number(this.assertAndReturnSetting("BOT_PRESENCE_TYPE", "0"));
   }
 
+  public getRedisRepositoryHost(): string {
+    return this.assertAndReturnSetting("REDIS_HOST", "localhost");
+  }
+
+  public getRedisRepositryPort(): number {
+    return Number(this.assertAndReturnSetting("REDIS_PORT", "6379"));
+  }
+
+  public getRedisRepositoryDefaultTTL(): number {
+    return Number(this.assertAndReturnSetting("REDIS_TTL", "3600"));
+  }
+
   private assertAndReturnSetting(settingName: string, defaultValue?: string): string {
     const setting: MaybeUndefined<string> = this.returnSetting(settingName);
     if (setting === undefined) {

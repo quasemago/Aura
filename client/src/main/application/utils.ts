@@ -16,7 +16,7 @@ export const validateUserPermissions = (
   ) {
     return true;
   }
-  // TODO: Check if the user has the required permissions to execute the command
-  // return interaction.memberPermissions?.has(command.data.default_member_permissions, true) ?? false;
   return true;
+  // TODO: Check if the user has the required permissions to execute the command
+  //return interaction.memberPermissions?.has(command.data.default_member_permissions, true) ?? false;
 };
