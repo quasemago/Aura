@@ -33,3 +33,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Nodejs
+artifacts/
+test-report/
+node_modules/
+npm-debug.log
