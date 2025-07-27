@@ -1,12 +1,11 @@
+import { Settings } from "@/main/infrastructure/configurations/settings";
 import * as Types from "@/main/infrastructure/configurations/types";
 import { inject, injectable } from "inversify";
 import Redis from "ioredis";
 import { Logger } from "winston";
-import { Settings } from "../../configurations/settings";
-import type { IRedisRepository } from "./i-redis";
 
 @injectable()
-export class RedisRepository implements IRedisRepository {
+export class RedisRepository {
   constructor(
     @inject(Types.Logger) private readonly logger: Logger,
     @inject(Settings) private readonly settings: Settings

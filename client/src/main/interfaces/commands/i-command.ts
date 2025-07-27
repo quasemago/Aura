@@ -1,10 +1,9 @@
-import type { DiscordClient } from "@/main/infrastructure/discord/client";
 import type { CommandInteraction } from "discord.js";
-import type { BaseDiscordCommandBuilder } from "./command-base";
+import type { BaseDiscordCommandBuilder } from "./base-command";
 
 export interface IDiscordGuildCommand {
   data: BaseDiscordCommandBuilder;
-  execute(interaction: CommandInteraction, client?: DiscordClient): Promise<void>;
+  execute(interaction: CommandInteraction): Promise<void>;
 }
 
 export enum DiscordGuildCommandCategory {
