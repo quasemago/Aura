@@ -1,8 +1,11 @@
 import { CmdsCommandUseCase } from "@/main/application/usecases/cmds-command-usecase";
+import {
+  DiscordGuildCommandCategory,
+  type IDiscordGuildCommand
+} from "@/main/interfaces/types/i-command";
 import { type CommandInteraction } from "discord.js";
 import { inject, injectable } from "inversify";
 import { BaseDiscordCommandBuilder } from "../base-command";
-import { DiscordGuildCommandCategory, type IDiscordGuildCommand } from "../i-command";
 
 @injectable()
 export class CmdsCommand implements IDiscordGuildCommand {

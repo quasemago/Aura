@@ -1,8 +1,11 @@
 import { AboutCommandUseCase } from "@/main/application/usecases/about-command-usecase";
-import type { CommandInteraction } from "discord.js";
+import {
+  DiscordGuildCommandCategory,
+  type IDiscordGuildCommand
+} from "@/main/interfaces/types/i-command";
+import { PermissionFlagsBits, type CommandInteraction } from "discord.js";
 import { inject, injectable } from "inversify";
 import { BaseDiscordCommandBuilder } from "../base-command";
-import { DiscordGuildCommandCategory, type IDiscordGuildCommand } from "../i-command";
 
 @injectable()
 export class AboutCommand implements IDiscordGuildCommand {
@@ -14,7 +17,8 @@ export class AboutCommand implements IDiscordGuildCommand {
     this.data = new BaseDiscordCommandBuilder()
       .setName("about")
       .setDescription("Help command with information about the bot.")
-      .setCategory(DiscordGuildCommandCategory.GENERAL);
+      .setCategory(DiscordGuildCommandCategory.GENERAL)
+      .setDefaultMemberPermissions(PermissionFlagsBits.Administrator);
   }
 
   public async execute(interaction: CommandInteraction): Promise<void> {

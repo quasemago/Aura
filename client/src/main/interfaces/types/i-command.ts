@@ -1,5 +1,5 @@
+import type { BaseDiscordCommandBuilder } from "@/main/interfaces/commands/base-command";
 import type { CommandInteraction } from "discord.js";
-import type { BaseDiscordCommandBuilder } from "./base-command";
 
 export interface IDiscordGuildCommand {
   data: BaseDiscordCommandBuilder;

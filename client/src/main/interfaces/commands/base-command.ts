@@ -1,5 +1,5 @@
+import { DiscordGuildCommandCategory } from "@/main/interfaces/types/i-command";
 import { SlashCommandBuilder } from "discord.js";
-import { DiscordGuildCommandCategory } from "./i-command";
 import { injectable } from "inversify";
 
 @injectable()

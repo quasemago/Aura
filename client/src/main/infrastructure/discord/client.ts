@@ -1,7 +1,7 @@
 import { Settings } from "@/main/infrastructure/configurations/settings";
 import * as Types from "@/main/infrastructure/configurations/types";
 import { IDiscordGuildEvent } from "@/main/infrastructure/discord/events/i-events";
-import { IDiscordGuildCommand } from "@/main/interfaces/commands/i-command";
+import { IDiscordGuildCommand } from "@/main/interfaces/types/i-command";
 import { Client, GatewayIntentBits, Partials, REST, Routes } from "discord.js";
 import { inject, injectable, multiInject } from "inversify";
 import { Logger } from "winston";

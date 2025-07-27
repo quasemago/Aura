@@ -1,6 +1,6 @@
 import { container } from "@/main/infrastructure/configurations/container";
 import { DiscordClient } from "@/main/infrastructure/discord/client";
-import { IDiscordGuildCommand } from "@/main/interfaces/commands/i-command";
+import { IDiscordGuildCommand } from "@/main/interfaces/types/i-command";
 import { CommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
 import { injectable } from "inversify";
 import { validateUserPermissions } from "../utils";

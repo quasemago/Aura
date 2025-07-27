@@ -13,7 +13,7 @@ import { RedisService } from "@/main/infrastructure/services/redis/redis-service
 import { AboutCommand } from "@/main/interfaces/commands/general/about-command";
 import { CmdsCommand } from "@/main/interfaces/commands/general/cmds-command";
 import { PingCommand } from "@/main/interfaces/commands/general/ping-command";
-import type { IDiscordGuildCommand } from "@/main/interfaces/commands/i-command";
+import type { IDiscordGuildCommand } from "@/main/interfaces/types/i-command";
 import type { CommandInteraction } from "discord.js";
 import { Container } from "inversify";
 import { createLogger, format, type Logger, transports } from "winston";
