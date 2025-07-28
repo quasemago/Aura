@@ -46,8 +46,8 @@ export class AnimeCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInt
       .setURL(animeData.url || "#")
       .setDescription(
         `**English Title:** ${animeData.title_english || this.DEFAULT_VALUE}
-        \n\n**Synopsis:** ${synopsis}
-        \n\n**Trailer:** ${animeData.trailer?.url || this.DEFAULT_VALUE}`
+        \n**Synopsis:** ${synopsis}
+        \n**Trailer:** ${animeData.trailer?.url || this.DEFAULT_VALUE}`
       )
       .setColor(0x00ff00)
       .setTimestamp()
