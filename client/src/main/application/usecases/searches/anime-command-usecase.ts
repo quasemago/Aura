@@ -42,10 +42,10 @@ export class AnimeCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInt
       : this.DEFAULT_VALUE;
 
     const embed = new EmbedBuilder()
-      .setTitle(animeData.title)
+      .setTitle(animeData.title || this.DEFAULT_VALUE)
       .setURL(animeData.url || "#")
       .setDescription(
-        `**English Tittle:** ${animeData.title_english}
+        `**English Tittle:** ${animeData.title_english || this.DEFAULT_VALUE}
         \n\n**Synopsis:** ${synopsis}
         \n\n**Trailer:** ${animeData.trailer?.url || this.DEFAULT_VALUE}`
       )

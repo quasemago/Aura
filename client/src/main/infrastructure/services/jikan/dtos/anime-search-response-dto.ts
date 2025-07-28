@@ -73,16 +73,13 @@ export class Anime {
   titles?: Title[];
 
   @IsString()
-  @IsOptional()
-  title: string = "N/A";
+  title?: string;
 
   @IsString()
-  @IsOptional()
-  title_english: string = "N/A";
+  title_english?: string;
 
   @IsString()
-  @IsOptional()
-  title_japanese: string = "N/A";
+  title_japanese?: string;
 
   @IsArray()
   title_synonyms?: string[];
