@@ -1,0 +1,59 @@
+{
+  "name": "aura",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "scripts": {
+    "build": "tsc -p . && tsc-alias",
+    "lint": "eslint . --ext ts",
+    "dev": "export NODE_ENV=development && ts-node-dev -r tsconfig-paths/register ./src/index.ts",
+    "pretest": "npm run lint",
+    "test": "jest --config jest.config.js --coverage --passWithNoTests --noStackTrace --runInBand",
+    "test:clear": "jest --clearCache"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quasemago/Aura.git"
+  },
+  "author": "quasemago <brunoronningfn@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/quasemago/Aura/issues"
+  },
+  "homepage": "https://github.com/quasemago/Aura#readme",
+  "description": "Project of a chatbot for Discord, built using Nodejs.",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "discord.js": "^14.21.0",
+    "dotenv": "^16.5.0",
+    "inversify": "^7.6.1",
+    "ioredis": "^5.6.1",
+    "reflect-metadata": "^0.2.2",
+    "tsdef": "^0.0.14",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
+    "@types/ioredis": "^4.28.10",
+    "@types/jest": "^29.5.14",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-sonarjs": "^3.0.2",
+    "eslint-plugin-spellcheck": "0.0.20",
+    "globals": "^16.1.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.5.3",
+    "pretty-quick": "^4.1.1",
+    "source-map-support": "^0.5.21",
+    "ts-jest": "^29.3.4",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.16",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1"
+  }
+}
