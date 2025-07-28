@@ -45,7 +45,7 @@ export class AnimeCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInt
       .setTitle(animeData.title || this.DEFAULT_VALUE)
       .setURL(animeData.url || "#")
       .setDescription(
-        `**English Tittle:** ${animeData.title_english || this.DEFAULT_VALUE}
+        `**English Title:** ${animeData.title_english || this.DEFAULT_VALUE}
         \n\n**Synopsis:** ${synopsis}
         \n\n**Trailer:** ${animeData.trailer?.url || this.DEFAULT_VALUE}`
       )
