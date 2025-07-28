@@ -1,11 +1,17 @@
-FROM maven:3.9.8-eclipse-temurin-17 AS build
+FROM node:22 AS builder
 WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
 
 COPY . .
-RUN --mount=type=cache,target=/root/.m2,rw mvn clean package -DskipTests
+RUN npm run build
 
-FROM eclipse-temurin:17-jdk
+FROM node:22-slim
 WORKDIR /app
 
-COPY --from=build /app/target/*.jar ./app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/artifacts/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+
+CMD ["node", "dist/src/index.js"]

@@ -30,10 +30,6 @@ export class Settings {
     return this.assertAndReturnSetting("REDIS_HOST", "localhost");
   }
 
-  public getRedisRepositryPort(): number {
-    return Number(this.assertAndReturnSetting("REDIS_PORT", "6379"));
-  }
-
   public getRedisRepositoryDefaultTTL(): number {
     return Number(this.assertAndReturnSetting("REDIS_TTL", "3600"));
   }

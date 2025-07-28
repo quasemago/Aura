@@ -46,7 +46,7 @@ export class RedisRepository {
     try {
       const client = new Redis({
         host: this.settings.getRedisRepositoryHost(),
-        port: this.settings.getRedisRepositryPort()
+        port: 6379
         // TODO: configure timeout settings
       });
 
