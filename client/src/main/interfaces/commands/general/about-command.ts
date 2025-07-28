@@ -3,7 +3,7 @@ import {
   DiscordGuildCommandCategory,
   type IDiscordGuildCommand
 } from "@/main/interfaces/types/i-command";
-import { ChatInputCommandInteraction, PermissionFlagsBits } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import { inject, injectable } from "inversify";
 import { BaseDiscordSlashCommandBuilder } from "../base-command";
 
@@ -17,8 +17,7 @@ export class AboutCommand implements IDiscordGuildCommand {
     this.data = new BaseDiscordSlashCommandBuilder()
       .setName("about")
       .setDescription("Help command with information about the bot.")
-      .setCategory(DiscordGuildCommandCategory.GENERAL)
-      .setDefaultMemberPermissions(PermissionFlagsBits.Administrator);
+      .setCategory(DiscordGuildCommandCategory.GENERAL);
   }
 
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
