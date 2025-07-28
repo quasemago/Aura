@@ -3,25 +3,25 @@ import {
   DiscordGuildCommandCategory,
   type IDiscordGuildCommand
 } from "@/main/interfaces/types/i-command";
-import { PermissionFlagsBits, type CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction, PermissionFlagsBits } from "discord.js";
 import { inject, injectable } from "inversify";
-import { BaseDiscordCommandBuilder } from "../base-command";
+import { BaseDiscordSlashCommandBuilder } from "../base-command";
 
 @injectable()
 export class AboutCommand implements IDiscordGuildCommand {
-  public readonly data: BaseDiscordCommandBuilder;
+  public readonly data: BaseDiscordSlashCommandBuilder;
 
   constructor(
     @inject(AboutCommandUseCase) private readonly aboutCommandUseCase: AboutCommandUseCase
   ) {
-    this.data = new BaseDiscordCommandBuilder()
+    this.data = new BaseDiscordSlashCommandBuilder()
       .setName("about")
       .setDescription("Help command with information about the bot.")
       .setCategory(DiscordGuildCommandCategory.GENERAL)
       .setDefaultMemberPermissions(PermissionFlagsBits.Administrator);
   }
 
-  public async execute(interaction: CommandInteraction): Promise<void> {
+  public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     await this.aboutCommandUseCase.execute(interaction);
   }
 }

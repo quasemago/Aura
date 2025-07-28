@@ -1,10 +1,10 @@
-import { CommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
+import { type ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
 import { injectable } from "inversify";
 import { AbstractBaseUseCase } from "./base-usecase";
 
 @injectable()
-export class AboutCommandUseCase extends AbstractBaseUseCase<CommandInteraction, void> {
-  public async execute(input: CommandInteraction): Promise<void> {
+export class AboutCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {
+  public async execute(input: ChatInputCommandInteraction): Promise<void> {
     const embed = new EmbedBuilder()
       .setTitle(`🤖 ${input.client.user.displayName}`)
       .setDescription(

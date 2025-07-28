@@ -3,22 +3,22 @@ import {
   DiscordGuildCommandCategory,
   type IDiscordGuildCommand
 } from "@/main/interfaces/types/i-command";
-import { type CommandInteraction } from "discord.js";
+import { type ChatInputCommandInteraction } from "discord.js";
 import { inject, injectable } from "inversify";
-import { BaseDiscordCommandBuilder } from "../base-command";
+import { BaseDiscordSlashCommandBuilder } from "../base-command";
 
 @injectable()
 export class CmdsCommand implements IDiscordGuildCommand {
-  public readonly data: BaseDiscordCommandBuilder;
+  public readonly data: BaseDiscordSlashCommandBuilder;
 
   constructor(@inject(CmdsCommandUseCase) private readonly cmdsCommandUseCase: CmdsCommandUseCase) {
-    this.data = new BaseDiscordCommandBuilder()
+    this.data = new BaseDiscordSlashCommandBuilder()
       .setName("cmds")
       .setDescription("Lists all available commands.")
       .setCategory(DiscordGuildCommandCategory.GENERAL);
   }
 
-  public async execute(interaction: CommandInteraction): Promise<void> {
+  public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     await this.cmdsCommandUseCase.execute(interaction);
   }
 }

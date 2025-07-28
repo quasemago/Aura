@@ -1,14 +1,19 @@
 import { container } from "@/main/infrastructure/configurations/container";
 import { DiscordClient } from "@/main/infrastructure/discord/client";
 import { IDiscordGuildCommand } from "@/main/interfaces/types/i-command";
-import { CommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  CommandInteraction,
+  EmbedBuilder,
+  MessageFlags
+} from "discord.js";
 import { injectable } from "inversify";
 import { validateUserPermissions } from "../utils";
 import { AbstractBaseUseCase } from "./base-usecase";
 
 @injectable()
-export class CmdsCommandUseCase extends AbstractBaseUseCase<CommandInteraction, void> {
-  public async execute(interaction: CommandInteraction): Promise<void> {
+export class CmdsCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {
+  public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const commandList = this.getCommandListByCategory(interaction);
     if (commandList === undefined) {
       await interaction.reply({

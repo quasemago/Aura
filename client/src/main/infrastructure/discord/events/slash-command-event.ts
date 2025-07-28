@@ -26,21 +26,16 @@ export class SlashCommandEvent implements IDiscordGuildEvent {
 
         try {
           await command.execute(interaction);
-        } catch (err: unknown) {
-          const error = err as Error;
-          this.logger.error(error);
-
+        } catch {
           if (interaction.replied || interaction.deferred) {
             await interaction.followUp({
               content:
-                "There was an error while executing this command, report this to an administrator!",
-              ephemeral: false
+                "There was an error while executing this command, report this to an administrator!"
             });
           } else {
             await interaction.reply({
               content:
-                "There was an error while executing this command, report this to an administrator!",
-              ephemeral: false
+                "There was an error while executing this command, report this to an administrator!"
             });
           }
         }

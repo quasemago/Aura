@@ -1,6 +1,8 @@
 import { AboutCommandUseCase } from "@/main/application/usecases/about-command-usecase";
+import { AnimeCommandUseCase } from "@/main/application/usecases/anime-command-usecase";
 import type { AbstractBaseUseCase } from "@/main/application/usecases/base-usecase";
 import { CmdsCommandUseCase } from "@/main/application/usecases/cmds-command-usecase";
+import { MalCommandUseCase } from "@/main/application/usecases/mal-command-usecase";
 import { PingCommandUseCase } from "@/main/application/usecases/ping-command-usecase";
 import { Settings } from "@/main/infrastructure/configurations/settings";
 import * as Types from "@/main/infrastructure/configurations/types";
@@ -9,12 +11,15 @@ import { ClientReadyEvent } from "@/main/infrastructure/discord/events/client-re
 import type { IDiscordGuildEvent } from "@/main/infrastructure/discord/events/i-events";
 import { SlashCommandEvent } from "@/main/infrastructure/discord/events/slash-command-event";
 import { RedisRepository } from "@/main/infrastructure/repositories/redis/redis-repository";
+import { JikanService } from "@/main/infrastructure/services/jikan/jikan-service";
 import { RedisService } from "@/main/infrastructure/services/redis/redis-service";
 import { AboutCommand } from "@/main/interfaces/commands/general/about-command";
 import { CmdsCommand } from "@/main/interfaces/commands/general/cmds-command";
 import { PingCommand } from "@/main/interfaces/commands/general/ping-command";
+import { AnimeCommand } from "@/main/interfaces/commands/searches/anime-command";
+import { MalCommand } from "@/main/interfaces/commands/searches/mal-command";
 import type { IDiscordGuildCommand } from "@/main/interfaces/types/i-command";
-import type { CommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 import { Container } from "inversify";
 import { createLogger, format, type Logger, transports } from "winston";
 
@@ -47,14 +52,21 @@ container.bind<Logger>(Types.Logger).toConstantValue(
  * Application
  */
 container
-  .bind<AbstractBaseUseCase<CommandInteraction, void>>(AboutCommandUseCase)
+  .bind<AbstractBaseUseCase<ChatInputCommandInteraction, void>>(AboutCommandUseCase)
   .to(AboutCommandUseCase);
 container
-  .bind<AbstractBaseUseCase<CommandInteraction, void>>(PingCommandUseCase)
+  .bind<AbstractBaseUseCase<ChatInputCommandInteraction, void>>(PingCommandUseCase)
   .to(PingCommandUseCase);
 container
-  .bind<AbstractBaseUseCase<CommandInteraction, void>>(CmdsCommandUseCase)
+  .bind<AbstractBaseUseCase<ChatInputCommandInteraction, void>>(CmdsCommandUseCase)
   .to(CmdsCommandUseCase);
+
+container
+  .bind<AbstractBaseUseCase<ChatInputCommandInteraction, void>>(AnimeCommandUseCase)
+  .to(AnimeCommandUseCase);
+container
+  .bind<AbstractBaseUseCase<ChatInputCommandInteraction, void>>(MalCommandUseCase)
+  .to(MalCommandUseCase);
 
 /*
  * Infrastructure
@@ -63,6 +75,7 @@ container.bind(Settings).toSelf().inSingletonScope();
 
 container.bind(RedisService).toSelf();
 container.bind(RedisRepository).toSelf().inSingletonScope();
+container.bind(JikanService).toSelf();
 
 container.bind(DiscordClient).toSelf().inSingletonScope();
 container.bind<IDiscordGuildEvent>(Types.DiscordGuildEvent).to(ClientReadyEvent);
@@ -74,5 +87,8 @@ container.bind<IDiscordGuildEvent>(Types.DiscordGuildEvent).to(SlashCommandEvent
 container.bind<IDiscordGuildCommand>(Types.DiscordGuildCommand).to(PingCommand);
 container.bind<IDiscordGuildCommand>(Types.DiscordGuildCommand).to(AboutCommand);
 container.bind<IDiscordGuildCommand>(Types.DiscordGuildCommand).to(CmdsCommand);
+
+container.bind<IDiscordGuildCommand>(Types.DiscordGuildCommand).to(AnimeCommand);
+container.bind<IDiscordGuildCommand>(Types.DiscordGuildCommand).to(MalCommand);
 
 export { container, container as iocContainer };
