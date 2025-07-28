@@ -1,4 +1,4 @@
-import { PingCommandUseCase } from "@/main/application/usecases/ping-command-usecase";
+import { PingCommandUseCase } from "@/main/application/usecases/general/ping-command-usecase";
 import {
   DiscordGuildCommandCategory,
   type IDiscordGuildCommand

@@ -1,6 +1,6 @@
 import { type ChatInputCommandInteraction, MessageFlags } from "discord.js";
 import { injectable } from "inversify";
-import { AbstractBaseUseCase } from "./base-usecase";
+import { AbstractBaseUseCase } from "../base-usecase";
 
 @injectable()
 export class PingCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {

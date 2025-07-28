@@ -8,8 +8,8 @@ import {
   MessageFlags
 } from "discord.js";
 import { injectable } from "inversify";
-import { validateUserPermissions } from "../utils";
-import { AbstractBaseUseCase } from "./base-usecase";
+import { validateUserPermissions } from "../../utils";
+import { AbstractBaseUseCase } from "../base-usecase";
 
 @injectable()
 export class CmdsCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {

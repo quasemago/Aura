@@ -2,7 +2,7 @@ import { UserProfile } from "@/main/infrastructure/services/jikan/dtos/mal-searc
 import { JikanService } from "@/main/infrastructure/services/jikan/jikan-service";
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { inject, injectable } from "inversify";
-import { AbstractBaseUseCase } from "./base-usecase";
+import { AbstractBaseUseCase } from "../base-usecase";
 
 @injectable()
 export class MalCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {

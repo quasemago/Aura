@@ -1,4 +1,4 @@
-import { MalCommandUseCase } from "@/main/application/usecases/mal-command-usecase";
+import { MalCommandUseCase } from "@/main/application/usecases/searches/mal-command-usecase";
 import {
   DiscordGuildCommandCategory,
   type IDiscordGuildCommand

@@ -1,4 +1,4 @@
-import { CmdsCommandUseCase } from "@/main/application/usecases/cmds-command-usecase";
+import { CmdsCommandUseCase } from "@/main/application/usecases/general/cmds-command-usecase";
 import {
   DiscordGuildCommandCategory,
   type IDiscordGuildCommand

@@ -1,4 +1,4 @@
-import { AboutCommandUseCase } from "@/main/application/usecases/about-command-usecase";
+import { AboutCommandUseCase } from "@/main/application/usecases/general/about-command-usecase";
 import {
   DiscordGuildCommandCategory,
   type IDiscordGuildCommand

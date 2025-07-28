@@ -1,4 +1,4 @@
-import { AnimeCommandUseCase } from "@/main/application/usecases/anime-command-usecase";
+import { AnimeCommandUseCase } from "@/main/application/usecases/searches/anime-command-usecase";
 import {
   DiscordGuildCommandCategory,
   type IDiscordGuildCommand
