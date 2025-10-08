@@ -33,6 +33,6 @@
     "rootDirs": ["src", "test"],
     "types": ["reflect-metadata", "node", "jest"]
   },
-  "include": ["src", "test"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
