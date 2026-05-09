@@ -1,27 +1,16 @@
 # Aura
 
-Aura is a Discord chatbot built with Node.js, TypeScript, and Discord.js. It registers global slash commands, answers basic bot commands, and searches MyAnimeList data through the public Jikan API. API responses are cached in Redis to reduce repeated external requests.
-
-## Features
-
-- Discord slash commands registered through the Discord REST API.
-- Command categories for general utilities and MyAnimeList searches.
-- Anime search by title using Jikan's `/anime` endpoint.
-- MyAnimeList user profile lookup using Jikan's `/users/{username}/full` endpoint.
-- Redis-backed cache with configurable TTL.
-- Dependency injection with Inversify.
-- Structured logging with Winston to console and log files.
-- Docker Compose setup with the bot and Redis.
+Aura is a a multi-feature bot built using Nodejs.
 
 ## Commands
 
-| Command | Description |
-| --- | --- |
-| `/about` | Shows bot information, author, version, and uptime placeholder. |
-| `/cmds` | Lists available commands grouped by category. |
-| `/ping` | Replies with the current Discord websocket latency. |
+| Command                | Description                                                                                                                |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `/about`               | Shows bot information, author, version, and uptime placeholder.                                                            |
+| `/cmds`                | Lists available commands grouped by category.                                                                              |
+| `/ping`                | Replies with the current Discord websocket latency.                                                                        |
 | `/anime title:<title>` | Searches for an anime on MyAnimeList and returns an embed with synopsis, score, rank, genres, studios, trailer, and image. |
-| `/mal name:<username>` | Searches for a MyAnimeList user and returns an embed with anime statistics and profile details. |
+| `/mal name:<username>` | Searches for a MyAnimeList user and returns an embed with anime statistics and profile details.                            |
 
 ## Requirements
 
@@ -51,17 +40,17 @@ REDIS_HOST=localhost
 REDIS_TTL=3600
 ```
 
-| Variable | Required | Default | Description |
-| --- | --- | --- | --- |
-| `BOT_ID` | Yes | - | Discord application client ID used to register slash commands. |
-| `BOT_TOKEN` | Yes | - | Discord bot token used to log in and register commands. |
-| `BOT_PRESENCE_MSG` | No | `Discord` | Activity text shown in the bot presence. |
-| `BOT_PRESENCE_TYPE` | No | `0` | Discord activity type. `0` Playing, `1` Streaming, `2` Listening, `3` Watching, `4` Custom Status, `5` Competing. |
-| `LOG_LEVEL` | No | `info` | Winston log level. |
-| `LOGS_PATH` | Docker only | - | Host directory mounted to `/app/logs` by Docker Compose. |
-| `REDIS_HOST` | No | `localhost` | Redis host used by the cache repository. Docker Compose sets this to `cache`. |
-| `REDIS_TTL` | No | `3600` | Cache duration in seconds. |
-| `BOT_OWNERID` | No | - | Present in Docker Compose and `.env.example`; not currently used by the application code. |
+| Variable            | Required    | Default     | Description                                                                                                       |
+| ------------------- | ----------- | ----------- | ----------------------------------------------------------------------------------------------------------------- |
+| `BOT_ID`            | Yes         | -           | Discord application client ID used to register slash commands.                                                    |
+| `BOT_TOKEN`         | Yes         | -           | Discord bot token used to log in and register commands.                                                           |
+| `BOT_PRESENCE_MSG`  | No          | `Discord`   | Activity text shown in the bot presence.                                                                          |
+| `BOT_PRESENCE_TYPE` | No          | `0`         | Discord activity type. `0` Playing, `1` Streaming, `2` Listening, `3` Watching, `4` Custom Status, `5` Competing. |
+| `LOG_LEVEL`         | No          | `info`      | Winston log level.                                                                                                |
+| `LOGS_PATH`         | Docker only | -           | Host directory mounted to `/app/logs` by Docker Compose.                                                          |
+| `REDIS_HOST`        | No          | `localhost` | Redis host used by the cache repository. Docker Compose sets this to `cache`.                                     |
+| `REDIS_TTL`         | No          | `3600`      | Cache duration in seconds.                                                                                        |
+| `BOT_OWNERID`       | No          | -           | Present in Docker Compose and `.env.example`; not currently used by the application code.                         |
 
 ## Installation
 
@@ -92,9 +81,9 @@ Docker Compose starts two services:
 
 ## Scripts
 
-| Script | Description |
-| --- | --- |
-| `npm run dev` | Starts the bot in development mode with `ts-node-dev` and `tsconfig-paths`. |
-| `npm run lint` | Runs ESLint for TypeScript files. |
-| `npm run build` | Runs the TypeScript compiler and rewrites path aliases with `tsc-alias`. |
-| `npm run prebuild` | Runs automatically before `npm run build`; currently executes linting. |
+| Script             | Description                                                                 |
+| ------------------ | --------------------------------------------------------------------------- |
+| `npm run dev`      | Starts the bot in development mode with `ts-node-dev` and `tsconfig-paths`. |
+| `npm run lint`     | Runs ESLint for TypeScript files.                                           |
+| `npm run build`    | Runs the TypeScript compiler and rewrites path aliases with `tsc-alias`.    |
+| `npm run prebuild` | Runs automatically before `npm run build`; currently executes linting.      |
