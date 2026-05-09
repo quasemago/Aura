@@ -1,9 +1,14 @@
+import { Settings } from "@/main/infrastructure/configurations/settings";
 import { type ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { AbstractBaseUseCase } from "../base-usecase";
 
 @injectable()
 export class AboutCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {
+  constructor(@inject(Settings) private readonly settings: Settings) {
+    super();
+  }
+
   public async execute(input: ChatInputCommandInteraction): Promise<void> {
     const embed = new EmbedBuilder()
       .setTitle(`🤖 ${input.client.user.displayName}`)
@@ -19,7 +24,7 @@ export class AboutCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInt
           value: `quasemago [(Github)](https://github.com/quasemago)`,
           inline: true
         },
-        { name: "Version", value: "0.0.1", inline: true },
+        { name: "Version", value: this.settings.getBotVersion(), inline: true },
         { name: "Uptime", value: "uptime", inline: true }
       )
       .setFooter({

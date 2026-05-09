@@ -10,6 +10,11 @@ dotenv.config();
 export class Settings {
   constructor(@inject(Types.Logger) private readonly logger: Logger) {}
 
+  // TODO: Make the version dynamic.
+  public getBotVersion(): string {
+    return "1.0.0";
+  }
+
   public getDiscordToken(): string {
     return this.assertAndReturnSetting("BOT_TOKEN");
   }
