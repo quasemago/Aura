@@ -1,8 +1,8 @@
 import "reflect-metadata";
 
-import { container } from "@/main/infrastructure/configurations/container";
-import * as Types from "@/main/infrastructure/configurations/types";
-import { DiscordClient } from "@/main/infrastructure/discord/client";
+import { container } from "@/infrastructure/config/container";
+import * as Types from "@/infrastructure/config/types";
+import { DiscordClient } from "@/infrastructure/discord/client";
 import type { Logger } from "winston";
 
 const discordClient = container.get(DiscordClient);
