@@ -1,8 +1,14 @@
-import type { BaseDiscordSlashCommandBuilder } from "@/main/interfaces/commands/base-command";
-import type { ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+
+export interface DiscordGuildCommandMetadata {
+  category: DiscordGuildCommandCategory;
+  hidden?: boolean;
+  cooldownSeconds?: number;
+}
 
 export interface IDiscordGuildCommand {
-  data: BaseDiscordSlashCommandBuilder;
+  data: SlashCommandBuilder;
+  metadata: DiscordGuildCommandMetadata;
   execute(interaction: ChatInputCommandInteraction): Promise<void>;
 }
 

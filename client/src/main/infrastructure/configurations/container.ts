@@ -1,9 +1,9 @@
-import { AboutCommandUseCase } from "@/main/application/usecases/general/about-command-usecase";
-import { AnimeCommandUseCase } from "@/main/application/usecases/searches/anime-command-usecase";
 import type { AbstractBaseUseCase } from "@/main/application/usecases/base-usecase";
+import { AboutCommandUseCase } from "@/main/application/usecases/general/about-command-usecase";
 import { CmdsCommandUseCase } from "@/main/application/usecases/general/cmds-command-usecase";
-import { MalCommandUseCase } from "@/main/application/usecases/searches/mal-command-usecase";
 import { PingCommandUseCase } from "@/main/application/usecases/general/ping-command-usecase";
+import { AnimeCommandUseCase } from "@/main/application/usecases/searches/anime-command-usecase";
+import { MalCommandUseCase } from "@/main/application/usecases/searches/mal-command-usecase";
 import { Settings } from "@/main/infrastructure/configurations/settings";
 import * as Types from "@/main/infrastructure/configurations/types";
 import { DiscordClient } from "@/main/infrastructure/discord/client";

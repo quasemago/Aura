@@ -26,7 +26,15 @@ export class SlashCommandEvent implements IDiscordGuildEvent {
 
         try {
           await command.execute(interaction);
-        } catch {
+        } catch (err: unknown) {
+          this.logger.error("Error while executing slash command.", {
+            error: err,
+            commandName: interaction.commandName,
+            guildId: interaction.guildId,
+            channelId: interaction.channelId,
+            userId: interaction.user.id
+          });
+
           if (interaction.replied || interaction.deferred) {
             await interaction.followUp({
               content:
