@@ -1,4 +1,3 @@
-import { container } from "@/main/infrastructure/configurations/container";
 import { DiscordClient } from "@/main/infrastructure/discord/client";
 import { IDiscordGuildCommand } from "@/main/interfaces/types/i-command";
 import {
@@ -58,7 +57,7 @@ export class CmdsCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInte
   private getCommandListByCategory(
     interaction: CommandInteraction
   ): Record<string, IDiscordGuildCommand[]> | undefined {
-    const discordCommands = container.get(DiscordClient).getCommands();
+    const discordCommands = (interaction.client as DiscordClient).getCommands();
     if (discordCommands.length === 0) {
       return undefined;
     }
@@ -68,11 +67,11 @@ export class CmdsCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInte
         return acc;
       }
 
-      if (command.data.category !== undefined) {
-        if (!(command.data.category in acc)) {
-          acc[command.data.category] = [];
+      if (!command.metadata.hidden) {
+        if (!(command.metadata.category in acc)) {
+          acc[command.metadata.category] = [];
         }
-        acc[command.data.category].push(command);
+        acc[command.metadata.category].push(command);
       }
       return acc;
     }, {});

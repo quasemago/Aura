@@ -8,9 +8,8 @@ export const validateUserPermissions = (
   // If the command context is BotDM or PrivateChannel, we allow it to be executed
   // regardless of the user's permissions.
   if (
-    command.data.contexts?.includes(
-      InteractionContextType.BotDM | InteractionContextType.PrivateChannel
-    )
+    command.data.contexts?.includes(InteractionContextType.BotDM) ||
+    command.data.contexts?.includes(InteractionContextType.PrivateChannel)
   ) {
     return true;
   }

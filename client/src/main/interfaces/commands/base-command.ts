@@ -1,18 +1,39 @@
-import type { DiscordGuildCommandCategory } from "@/main/interfaces/types/i-command";
+import type {
+  DiscordGuildCommandCategory,
+  DiscordGuildCommandMetadata,
+  IDiscordGuildCommand
+} from "@/main/interfaces/types/i-command";
+import type { ChatInputCommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "discord.js";
 
-export interface SlashCommandCategory {
-  category?: DiscordGuildCommandCategory;
+export interface DiscordCommandOptions {
+  name: string;
+  description: string;
+  category: DiscordGuildCommandCategory;
+  hidden?: boolean;
+  cooldownSeconds?: number;
+  configure?: (builder: SlashCommandBuilder) => void;
 }
 
-export class BaseDiscordSlashCommandBuilder
-  extends SlashCommandBuilder
-  implements SlashCommandCategory
-{
-  public category?: DiscordGuildCommandCategory;
+export abstract class BaseCommand implements IDiscordGuildCommand {
+  public readonly data: SlashCommandBuilder;
+  public readonly metadata: DiscordGuildCommandMetadata;
 
-  public setCategory(category: DiscordGuildCommandCategory): this {
-    this.category = category;
-    return this;
+  protected constructor(options: DiscordCommandOptions) {
+    this.metadata = {
+      category: options.category,
+      hidden: options.hidden,
+      cooldownSeconds: options.cooldownSeconds
+    };
+
+    const builder = new SlashCommandBuilder()
+      .setName(options.name)
+      .setDescription(options.description);
+
+    options.configure?.(builder);
+
+    this.data = builder;
   }
+
+  public abstract execute(interaction: ChatInputCommandInteraction): Promise<void>;
 }
