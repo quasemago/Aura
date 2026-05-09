@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { container } from "@/main/infrastructure/configurations/container";
 import * as Types from "@/main/infrastructure/configurations/types";
 import { DiscordClient } from "@/main/infrastructure/discord/client";

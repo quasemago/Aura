@@ -17,7 +17,7 @@ export default tseslint.config(
       "**/dist/",
       "**/node_modules/",
       "**/Development/",
-      "jest.config.js"
+      "**/test/"
     ]
   },
   eslint.configs.recommended,
@@ -32,7 +32,6 @@ export default tseslint.config(
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: "module",
-        project: "./tsconfig.json",
         projectService: true,
         tsconfigRootDir: import.meta.dirname
       }
