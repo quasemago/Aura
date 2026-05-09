@@ -3,12 +3,13 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "target": "ES2022",
-    "module": "commonjs",
+    "module": "ES2022",
     "lib": ["ES2022"],
     "sourceMap": true,
     "newLine": "LF",
     "pretty": false,
     "outDir": "artifacts/dist",
+    "rootDir": "src",
     "removeComments": false,
     "strict": true,
     "strictNullChecks": true,
@@ -18,20 +19,17 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "useDefineForClassFields": false,
     "allowJs": false,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@test/*": ["test/*"]
+      "@/*": ["./src/*"]
     },
-    "rootDirs": ["src", "test"],
-    "types": ["reflect-metadata", "node", "jest"]
+    "types": ["reflect-metadata", "node"]
   },
   "include": ["src"],
   "exclude": ["node_modules"]

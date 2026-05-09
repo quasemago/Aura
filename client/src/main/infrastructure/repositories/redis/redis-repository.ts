@@ -1,7 +1,7 @@
 import { Settings } from "@/main/infrastructure/configurations/settings";
 import * as Types from "@/main/infrastructure/configurations/types";
 import { inject, injectable } from "inversify";
-import Redis from "ioredis";
+import { Redis } from "ioredis";
 import { Logger } from "winston";
 
 @injectable()
