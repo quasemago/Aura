@@ -1,12 +1,12 @@
 import { MalCommandUseCase } from "@/application/usecases/searches/mal-command-usecase";
 import { DiscordGuildCommandCategory } from "@/interfaces/discord/types/i-command";
 import { InteractionContextType, type ChatInputCommandInteraction } from "discord.js";
-import { inject, injectable } from "inversify";
+import { Service } from "typedi";
 import { BaseCommand } from "../base-command";
 
-@injectable()
+@Service({ transient: true })
 export class MalCommand extends BaseCommand {
-  constructor(@inject(MalCommandUseCase) private readonly malCommandUseCase: MalCommandUseCase) {
+  constructor(private readonly malCommandUseCase: MalCommandUseCase) {
     super({
       name: "mal",
       description: "Search for a user on MyAnimeList",

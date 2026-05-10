@@ -26,9 +26,9 @@
     "class-validator": "^0.15.1",
     "discord.js": "^14.26.4",
     "dotenv": "^17.4.2",
-    "inversify": "^8.1.0",
     "ioredis": "^5.10.1",
     "reflect-metadata": "^0.2.2",
+    "typedi": "^0.10.0",
     "tsdef": "^0.0.14",
     "winston": "^3.19.0"
   },

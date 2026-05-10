@@ -1,8 +1,8 @@
 import { type ChatInputCommandInteraction, MessageFlags } from "discord.js";
-import { injectable } from "inversify";
+import { Service } from "typedi";
 import { AbstractBaseUseCase } from "../base-usecase";
 
-@injectable()
+@Service({ transient: true })
 export class PingCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {
   public async execute(input: ChatInputCommandInteraction): Promise<void> {
     await input.reply({

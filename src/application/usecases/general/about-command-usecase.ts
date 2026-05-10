@@ -1,11 +1,11 @@
 import { Settings } from "@/infrastructure/config/settings";
 import { type ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
-import { inject, injectable } from "inversify";
+import { Service } from "typedi";
 import { AbstractBaseUseCase } from "../base-usecase";
 
-@injectable()
+@Service({ transient: true })
 export class AboutCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {
-  constructor(@inject(Settings) private readonly settings: Settings) {
+  constructor(private readonly settings: Settings) {
     super();
   }
 

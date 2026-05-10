@@ -8,12 +8,9 @@ import type { Logger } from "winston";
 const discordClient = container.get(DiscordClient);
 const logger: Logger = container.get(Types.Logger);
 
-discordClient
-  .start()
-  .then(() => {
-    logger.info("Bot is running successfully.");
-  })
-  .catch((err: unknown) => {
-    const error = err as Error;
-    logger.error("An error occurred while starting the bot.", error);
-  });
+try {
+  await discordClient.start();
+  logger.info("Bot is running successfully.");
+} catch (err: unknown) {
+  logger.error("An error occurred while starting the bot.", err as Error);
+}

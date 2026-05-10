@@ -6,11 +6,11 @@ import {
   EmbedBuilder,
   MessageFlags
 } from "discord.js";
-import { injectable } from "inversify";
+import { Service } from "typedi";
 import { validateUserPermissions } from "../../utils";
 import { AbstractBaseUseCase } from "../base-usecase";
 
-@injectable()
+@Service({ transient: true })
 export class CmdsCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const commandList = this.getCommandListByCategory(interaction);
