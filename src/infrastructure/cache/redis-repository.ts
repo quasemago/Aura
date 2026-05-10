@@ -6,43 +6,42 @@ import { Logger } from "winston";
 
 @Service()
 export class RedisRepository {
+  private client: Redis | undefined;
+
   constructor(
     @Inject(Types.Logger) private readonly logger: Logger,
     private readonly settings: Settings
   ) {}
 
-  public async get(key: string): Promise<string | null> {
-    let client: Redis | null = null;
+  public async get(key: string, del?: boolean): Promise<string | null> {
     try {
-      client = await this.createRedisClient();
-      return await client.get(key);
+      const client = this.getRedisInstance();
+      return del ? await client.getdel(key) : await client.get(key);
     } catch (err: unknown) {
-      const error = err as Error;
-      this.logger.error(`Error getting key ${key} from Redis:`, error);
-    } finally {
-      if (client) {
-        await this.closeConnection(client);
-      }
+      this.logger.error(`Error getting key ${key} from Redis:`, err as Error);
     }
     return null;
   }
 
   public async set(key: string, value: string, durationInSeconds: number): Promise<void> {
-    let client: Redis | null = null;
     try {
-      client = await this.createRedisClient();
+      const client = this.getRedisInstance();
       await client.set(key, value, "EX", durationInSeconds);
     } catch (err: unknown) {
-      const error = err as Error;
-      this.logger.error(`Error setting key ${key} in Redis:`, error);
-    } finally {
-      if (client) {
-        await this.closeConnection(client);
-      }
+      this.logger.error(`Error setting key ${key} in Redis:`, err as Error);
     }
   }
 
-  private async createRedisClient(): Promise<Redis> {
+  private getRedisInstance(): Redis {
+    if (this.client && this.client.status !== "end") {
+      return this.client;
+    }
+
+    this.client = this.createRedisInstance();
+    return this.client;
+  }
+
+  private createRedisInstance(): Redis {
     try {
       const client = new Redis({
         host: this.settings.getRedisRepositoryHost(),
@@ -52,7 +51,12 @@ export class RedisRepository {
 
       client.on("error", (err: Error) => {
         this.logger.error("Redis error:", err);
-        this.closeConnection(client).catch(() => {});
+      });
+
+      client.on("end", () => {
+        if (this.client === client) {
+          this.client = undefined;
+        }
       });
 
       return client;
@@ -60,17 +64,6 @@ export class RedisRepository {
       const error = err as Error;
       this.logger.error("Error creating Redis client:", error);
       throw error;
-    }
-  }
-
-  private async closeConnection(client: Redis): Promise<void> {
-    if (client.status === "ready") {
-      try {
-        await client.quit();
-      } catch (err: unknown) {
-        const error = err as Error;
-        this.logger.error("Error closing Redis connection:", error);
-      }
     }
   }
 }
