@@ -1,4 +1,4 @@
-name: Build
+name: Main
 
 on:
   pull_request:
@@ -47,3 +47,22 @@ jobs:
 
       - name: Run tests
         run: bash .cicd/tests.sh
+
+  Sonarless-Scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Sonarless Scan
+        uses: gitricko/sonarless@v1.3
+        with:
+          sonar-source-path: "src"
+          sonar-metrics-path: "./sonar-mymetrics.json"
+
+      - name: Check Sonar Metrics - No Vulnerabilities
+        run: |
+          echo "Checking for any vulnerabilities in Sonar Metrics JSON"
+          VULN=$(cat ./sonar-mymetrics.json | jq -r '.component.measures[] | select(.metric == "vulnerabilities").value')
+          echo "# of vulnerabilities = ${VULN}"
+          [ ${VULN} -eq "0" ]
