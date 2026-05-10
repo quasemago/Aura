@@ -1,15 +1,15 @@
 import { Settings } from "@/infrastructure/config/settings";
 import * as Types from "@/infrastructure/config/types";
 import { RedisRepository } from "@/infrastructure/cache/redis-repository";
-import { inject, injectable } from "inversify";
+import { Inject, Service } from "typedi";
 import { Logger } from "winston";
 
-@injectable()
+@Service({ transient: true })
 export class RedisService {
   constructor(
-    @inject(Types.Logger) private readonly logger: Logger,
-    @inject(Settings) private readonly settings: Settings,
-    @inject(RedisRepository) private readonly redisRepository: RedisRepository
+    @Inject(Types.Logger) private readonly logger: Logger,
+    private readonly settings: Settings,
+    private readonly redisRepository: RedisRepository
   ) {}
 
   public async get(key: string): Promise<string | null> {

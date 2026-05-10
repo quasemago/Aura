@@ -1,14 +1,14 @@
 import * as Types from "@/infrastructure/config/types";
 import * as dotenv from "dotenv";
-import { inject, injectable } from "inversify";
 import { MaybeNil, MaybeUndefined } from "tsdef";
+import { Inject, Service } from "typedi";
 import { Logger } from "winston";
 
 dotenv.config();
 
-@injectable()
+@Service()
 export class Settings {
-  constructor(@inject(Types.Logger) private readonly logger: Logger) {}
+  constructor(@Inject(Types.Logger) private readonly logger: Logger) {}
 
   // TODO: Make the version dynamic.
   public getBotVersion(): string {

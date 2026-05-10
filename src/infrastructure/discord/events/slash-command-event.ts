@@ -1,13 +1,13 @@
 import * as Types from "@/infrastructure/config/types";
 import { DiscordClient } from "@/infrastructure/discord/client";
 import { Events, Interaction } from "discord.js";
-import { inject, injectable } from "inversify";
+import { Inject, Service } from "typedi";
 import { Logger } from "winston";
 import { IDiscordGuildEvent } from "./i-events";
 
-@injectable()
+@Service()
 export class SlashCommandEvent implements IDiscordGuildEvent {
-  constructor(@inject(Types.Logger) private readonly logger: Logger) {}
+  constructor(@Inject(Types.Logger) private readonly logger: Logger) {}
 
   public handle(client: DiscordClient): void {
     client.on(Events.InteractionCreate, (interaction: Interaction) => {

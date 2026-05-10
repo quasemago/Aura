@@ -1,12 +1,12 @@
 import { PingCommandUseCase } from "@/application/usecases/general/ping-command-usecase";
 import { DiscordGuildCommandCategory } from "@/interfaces/discord/types/i-command";
 import type { ChatInputCommandInteraction } from "discord.js";
-import { inject, injectable } from "inversify";
+import { Service } from "typedi";
 import { BaseCommand } from "../base-command";
 
-@injectable()
+@Service({ transient: true })
 export class PingCommand extends BaseCommand {
-  constructor(@inject(PingCommandUseCase) private readonly pingCommandUseCase: PingCommandUseCase) {
+  constructor(private readonly pingCommandUseCase: PingCommandUseCase) {
     super({
       name: "ping",
       description: "Replies with Pong!",

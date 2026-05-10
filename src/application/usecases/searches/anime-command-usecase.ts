@@ -1,14 +1,14 @@
 import { Anime } from "@/infrastructure/jikan/dtos/anime-search-response-dto";
 import { JikanService } from "@/infrastructure/jikan/jikan-service";
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import { inject, injectable } from "inversify";
+import { Service } from "typedi";
 import { AbstractBaseUseCase } from "../base-usecase";
 
-@injectable()
+@Service({ transient: true })
 export class AnimeCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {
   private readonly DEFAULT_VALUE = "N/A";
 
-  constructor(@inject(JikanService) private readonly jikanService: JikanService) {
+  constructor(private readonly jikanService: JikanService) {
     super();
   }
 

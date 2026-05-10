@@ -1,14 +1,12 @@
 import { AnimeCommandUseCase } from "@/application/usecases/searches/anime-command-usecase";
 import { DiscordGuildCommandCategory } from "@/interfaces/discord/types/i-command";
 import { InteractionContextType, type ChatInputCommandInteraction } from "discord.js";
-import { inject, injectable } from "inversify";
+import { Service } from "typedi";
 import { BaseCommand } from "../base-command";
 
-@injectable()
+@Service({ transient: true })
 export class AnimeCommand extends BaseCommand {
-  constructor(
-    @inject(AnimeCommandUseCase) private readonly animeCommandUseCase: AnimeCommandUseCase
-  ) {
+  constructor(private readonly animeCommandUseCase: AnimeCommandUseCase) {
     super({
       name: "anime",
       description: "Search for an anime on MyAnimeList",

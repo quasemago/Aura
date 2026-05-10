@@ -2,15 +2,15 @@ import { Settings } from "@/infrastructure/config/settings";
 import * as Types from "@/infrastructure/config/types";
 import { DiscordClient } from "@/infrastructure/discord/client";
 import { Events } from "discord.js";
-import { inject, injectable } from "inversify";
+import { Inject, Service } from "typedi";
 import { Logger } from "winston";
 import { IDiscordGuildEvent } from "./i-events";
 
-@injectable()
+@Service()
 export class ClientReadyEvent implements IDiscordGuildEvent {
   constructor(
-    @inject(Types.Logger) private readonly logger: Logger,
-    @inject(Settings) private readonly settings: Settings
+    @Inject(Types.Logger) private readonly logger: Logger,
+    private readonly settings: Settings
   ) {}
 
   public handle(client: DiscordClient): void {
