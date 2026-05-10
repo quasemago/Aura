@@ -68,3 +68,12 @@ jobs:
           VULN=$(cat ./sonar-mymetrics.json | jq -r '.component.measures[] | select(.metric == "vulnerabilities").value')
           echo "# of vulnerabilities = ${VULN}"
           [ ${VULN} -eq "0" ]
+
+      - name: Upload Sonarless report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonarless-report
+          path: ./sonar-mymetrics.json
+          if-no-files-found: error
+          retention-days: 3
