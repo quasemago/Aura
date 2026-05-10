@@ -36,7 +36,7 @@ export class DiscordClient extends Client {
     this.logger.info("Starting Discord client...");
     const discordToken = this.settings.getDiscordToken();
 
-    await this.loadEvents();
+    this.loadEvents();
     await this.loadCommands(discordToken);
 
     await this.login(discordToken);
@@ -51,7 +51,7 @@ export class DiscordClient extends Client {
     return this.commands;
   }
 
-  private async loadEvents(): Promise<void> {
+  private loadEvents(): void {
     this.logger.info(`Loading ${this.events.length} events...`);
     for (const event of this.events) {
       this.logger.info(`Registering event: ${event.constructor.name}`);

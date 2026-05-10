@@ -15,7 +15,7 @@ export class ClientReadyEvent implements IDiscordGuildEvent {
 
   public handle(client: DiscordClient): void {
     client.once(Events.ClientReady, () => {
-      (async () => {
+      try {
         if (client.isReady()) {
           this.logger.info(`Logged in as ${client.user.tag}!`);
           client.user.setPresence({
@@ -28,10 +28,9 @@ export class ClientReadyEvent implements IDiscordGuildEvent {
             status: "online"
           });
         }
-      })().catch((err: unknown) => {
-        const error = err as Error;
-        this.logger.error("Unhandled error in event handler:", error);
-      });
+      } catch (err: unknown) {
+        this.logger.error("Unhandled error in event handler:", err as Error);
+      }
     });
   }
 }
