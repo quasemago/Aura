@@ -1,14 +1,16 @@
 import { UserProfile } from "@/infrastructure/jikan/dtos/mal-search-response-dto";
+import { TranslationService } from "@/infrastructure/i18n/translation-service";
 import { JikanService } from "@/infrastructure/jikan/jikan-service";
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import { Service } from "typedi";
+import { inject, injectable } from "inversify";
 import { AbstractBaseUseCase } from "../base-usecase";
 
-@Service({ transient: true })
+@injectable()
 export class MalCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {
-  private readonly DEFAULT_VALUE = "N/A";
-
-  constructor(private readonly jikanService: JikanService) {
+  constructor(
+    @inject(JikanService) private readonly jikanService: JikanService,
+    @inject(TranslationService) private readonly translate: TranslationService
+  ) {
     super();
   }
 
@@ -18,7 +20,7 @@ export class MalCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInter
     const userData = await this.jikanService.getUserProfileDetails(username);
     if (!userData) {
       await interaction.reply({
-        content: `No user was found with name: ${username}`
+        content: this.translate.t("CMD_MAL_NOT_FOUND", { name: username })
       });
       return;
     }
@@ -31,54 +33,55 @@ export class MalCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInter
 
   private buildUserProfileEmbed(interaction: ChatInputCommandInteraction, userData: UserProfile) {
     const animeStats = userData.statistics?.anime;
+    const defaultValue = this.translate.t("COMMON_NOT_AVAILABLE");
 
     const embed = new EmbedBuilder()
-      .setTitle(`MyAnimeList Profile: ${userData.username}`)
+      .setTitle(this.translate.t("CMD_MAL_PROFILE_TITLE", { username: userData.username }))
       .setURL(userData.url || "#")
       .setColor(0x00ff00)
       .setTimestamp()
       .setFooter({
-        text: `Requested by ${interaction.user.username}`,
+        text: this.translate.t("COMMON_REQUESTED_BY", { username: interaction.user.username }),
         iconURL: interaction.user.displayAvatarURL()
       })
       .addFields(
         {
-          name: ":green_heart: Currently Watching",
-          value: animeStats?.watching?.toString() || this.DEFAULT_VALUE,
+          name: this.translate.t("CMD_MAL_FIELD_CURRENTLY_WATCHING"),
+          value: animeStats?.watching?.toString() || defaultValue,
           inline: true
         },
         {
-          name: ":blue_heart: Completed",
-          value: animeStats?.completed?.toString() || this.DEFAULT_VALUE,
+          name: this.translate.t("CMD_MAL_FIELD_COMPLETED"),
+          value: animeStats?.completed?.toString() || defaultValue,
           inline: true
         },
         {
-          name: ":yellow_heart: On Hold",
-          value: animeStats?.on_hold?.toString() || this.DEFAULT_VALUE,
+          name: this.translate.t("CMD_MAL_FIELD_ON_HOLD"),
+          value: animeStats?.on_hold?.toString() || defaultValue,
           inline: true
         },
         {
-          name: ":broken_heart: Dropped",
-          value: animeStats?.dropped?.toString() || this.DEFAULT_VALUE,
+          name: this.translate.t("CMD_MAL_FIELD_DROPPED"),
+          value: animeStats?.dropped?.toString() || defaultValue,
           inline: true
         },
         {
-          name: ":white_circle: Plan to Watch",
-          value: animeStats?.plan_to_watch?.toString() || this.DEFAULT_VALUE,
+          name: this.translate.t("CMD_MAL_FIELD_PLAN_TO_WATCH"),
+          value: animeStats?.plan_to_watch?.toString() || defaultValue,
           inline: true
         },
         {
-          name: ":page_facing_up: Total | Days",
-          value: `${animeStats?.total_entries || this.DEFAULT_VALUE} | ${animeStats?.days_watched || this.DEFAULT_VALUE}`,
+          name: this.translate.t("CMD_MAL_FIELD_TOTAL_DAYS"),
+          value: `${animeStats?.total_entries || defaultValue} | ${animeStats?.days_watched || defaultValue}`,
           inline: true
         },
         {
-          name: ":bar_chart: Mean Score",
-          value: animeStats?.mean_score?.toString() || this.DEFAULT_VALUE,
+          name: this.translate.t("CMD_MAL_FIELD_MEAN_SCORE"),
+          value: animeStats?.mean_score?.toString() || defaultValue,
           inline: true
         },
         {
-          name: ":date: Last Online",
+          name: this.translate.t("CMD_MAL_FIELD_LAST_ONLINE"),
           value: userData.last_online,
           inline: true
         }

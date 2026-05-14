@@ -1,23 +1,27 @@
 import { MalCommandUseCase } from "@/application/usecases/searches/mal-command-usecase";
+import { TranslationService } from "@/infrastructure/i18n/translation-service";
 import { DiscordGuildCommandCategory } from "@/interfaces/discord/types/i-command";
 import { InteractionContextType, type ChatInputCommandInteraction } from "discord.js";
-import { Service } from "typedi";
+import { inject, injectable } from "inversify";
 import { BaseCommand } from "../base-command";
 
-@Service({ transient: true })
+@injectable()
 export class MalCommand extends BaseCommand {
-  constructor(private readonly malCommandUseCase: MalCommandUseCase) {
+  constructor(
+    @inject(MalCommandUseCase) private readonly malCommandUseCase: MalCommandUseCase,
+    @inject(TranslationService) translate: TranslationService
+  ) {
     super({
-      name: "mal",
-      description: "Search for a user on MyAnimeList",
+      name: translate.t("CMD_MAL_NAME"),
+      description: translate.t("CMD_MAL_DESCRIPTION"),
       category: DiscordGuildCommandCategory.SEARCHES,
       configure: (builder) => {
         builder
           .setContexts(InteractionContextType.Guild)
           .addStringOption((option) =>
             option
-              .setName("name")
-              .setDescription("The name of the user to search for")
+              .setName(translate.t("CMD_MAL_OPTION_NAME_NAME"))
+              .setDescription(translate.t("CMD_MAL_OPTION_NAME_DESCRIPTION"))
               .setRequired(true)
           );
       }

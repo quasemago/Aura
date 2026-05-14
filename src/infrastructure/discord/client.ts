@@ -3,16 +3,16 @@ import * as Types from "@/infrastructure/config/types";
 import { IDiscordGuildEvent } from "@/infrastructure/discord/events/i-events";
 import { IDiscordGuildCommand } from "@/interfaces/discord/types/i-command";
 import { Client, GatewayIntentBits, Partials, REST, Routes } from "discord.js";
-import { Inject, Service } from "typedi";
+import { inject, injectable } from "inversify";
 import { Logger } from "winston";
 
-@Service()
+@injectable()
 export class DiscordClient extends Client {
   constructor(
-    @Inject(Types.Logger) private readonly logger: Logger,
-    private readonly settings: Settings,
-    @Inject(Types.DiscordGuildEvent) private readonly events: IDiscordGuildEvent[],
-    @Inject(Types.DiscordGuildCommand) private readonly commands: IDiscordGuildCommand[]
+    @inject(Types.Logger) private readonly logger: Logger,
+    @inject(Settings) private readonly settings: Settings,
+    @inject(Types.DiscordGuildEvent) private readonly events: IDiscordGuildEvent[],
+    @inject(Types.DiscordGuildCommand) private readonly commands: IDiscordGuildCommand[]
   ) {
     super({
       intents: [

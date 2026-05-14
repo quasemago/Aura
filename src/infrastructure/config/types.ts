@@ -1,11 +1,6 @@
-import type { IDiscordGuildEvent } from "@/infrastructure/discord/events/i-events";
-import type { IDiscordGuildCommand } from "@/interfaces/discord/types/i-command";
-import { Token } from "typedi";
-import type { Logger as WinstonLogger } from "winston";
-
 // Core
-export const Logger = new Token<WinstonLogger>("Logger");
+export const Logger = Symbol.for("Logger");
 
 // Interfaces
-export const DiscordGuildEvent = new Token<IDiscordGuildEvent[]>("DiscordGuildEvent");
-export const DiscordGuildCommand = new Token<IDiscordGuildCommand[]>("DiscordGuildCommand");
+export const DiscordGuildEvent = Symbol.for("DiscordGuildEvent");
+export const DiscordGuildCommand = Symbol.for("DiscordGuildCommand");
