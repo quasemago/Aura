@@ -1,18 +1,18 @@
-import * as Types from "@/infrastructure/config/types";
 import { RedisService } from "@/infrastructure/cache/redis-service";
+import * as Types from "@/infrastructure/config/types";
 import Axios, { AxiosRequestConfig } from "axios";
-import { Inject, Service } from "typedi";
+import { inject, injectable } from "inversify";
 import { Logger } from "winston";
 import { Anime, AnimeSearchResponseDTO } from "./dtos/anime-search-response-dto";
 import { MalSearchResponseDTO, UserProfile } from "./dtos/mal-search-response-dto";
 
-@Service({ transient: true })
+@injectable()
 export class JikanService {
   private readonly JIKAN_API_URL = "https://api.jikan.moe/v4";
 
   constructor(
-    @Inject(Types.Logger) private readonly logger: Logger,
-    private readonly redisService: RedisService
+    @inject(Types.Logger) private readonly logger: Logger,
+    @inject(RedisService) private readonly redisService: RedisService
   ) {}
 
   public async getAnimeDetails(title: string, sfw: boolean): Promise<Anime | undefined> {

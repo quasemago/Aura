@@ -1,34 +1,40 @@
 import { Settings } from "@/infrastructure/config/settings";
+import { TranslationService } from "@/infrastructure/i18n/translation-service";
 import { type ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
-import { Service } from "typedi";
+import { inject, injectable } from "inversify";
 import { AbstractBaseUseCase } from "../base-usecase";
 
-@Service({ transient: true })
+@injectable()
 export class AboutCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {
-  constructor(private readonly settings: Settings) {
+  constructor(
+    @inject(Settings) private readonly settings: Settings,
+    @inject(TranslationService) private readonly translate: TranslationService
+  ) {
     super();
   }
 
   public async execute(input: ChatInputCommandInteraction): Promise<void> {
     const embed = new EmbedBuilder()
       .setTitle(`🤖 ${input.client.user.displayName}`)
-      .setDescription(
-        "Aura is a Discord bot that provides a variety of features to enhance your server."
-      )
+      .setDescription(this.translate.t("CMD_ABOUT_DESCRIPTION_TEXT"))
       .setColor(0x0099ff)
       .setThumbnail(input.client.user.displayAvatarURL())
       .setTimestamp()
       .addFields(
         {
-          name: "Created by",
+          name: this.translate.t("CMD_ABOUT_FIELD_CREATED_BY"),
           value: `quasemago [(Github)](https://github.com/quasemago)`,
           inline: true
         },
-        { name: "Version", value: this.settings.getBotVersion(), inline: true },
-        { name: "Uptime", value: "uptime", inline: true }
+        {
+          name: this.translate.t("CMD_ABOUT_FIELD_VERSION"),
+          value: this.settings.getBotVersion(),
+          inline: true
+        },
+        { name: this.translate.t("CMD_ABOUT_FIELD_UPTIME"), value: "uptime", inline: true }
       )
       .setFooter({
-        text: `Requested by ${input.user.username}`,
+        text: this.translate.t("COMMON_REQUESTED_BY", { username: input.user.username }),
         iconURL: input.user.displayAvatarURL()
       });
 
