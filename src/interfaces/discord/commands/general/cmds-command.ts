@@ -1,15 +1,19 @@
 import { CmdsCommandUseCase } from "@/application/usecases/general/cmds-command-usecase";
+import { TranslationService } from "@/infrastructure/i18n/translation-service";
 import { DiscordGuildCommandCategory } from "@/interfaces/discord/types/i-command";
 import { type ChatInputCommandInteraction } from "discord.js";
-import { Service } from "typedi";
+import { inject, injectable } from "inversify";
 import { BaseCommand } from "../base-command";
 
-@Service({ transient: true })
+@injectable()
 export class CmdsCommand extends BaseCommand {
-  constructor(private readonly cmdsCommandUseCase: CmdsCommandUseCase) {
+  constructor(
+    @inject(CmdsCommandUseCase) private readonly cmdsCommandUseCase: CmdsCommandUseCase,
+    @inject(TranslationService) translate: TranslationService
+  ) {
     super({
-      name: "cmds",
-      description: "Lists all available commands.",
+      name: translate.t("CMD_CMDS_NAME"),
+      description: translate.t("CMD_CMDS_DESCRIPTION"),
       category: DiscordGuildCommandCategory.GENERAL
     });
   }

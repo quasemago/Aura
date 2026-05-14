@@ -1,14 +1,16 @@
 import { Anime } from "@/infrastructure/jikan/dtos/anime-search-response-dto";
+import { TranslationService } from "@/infrastructure/i18n/translation-service";
 import { JikanService } from "@/infrastructure/jikan/jikan-service";
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
-import { Service } from "typedi";
+import { inject, injectable } from "inversify";
 import { AbstractBaseUseCase } from "../base-usecase";
 
-@Service({ transient: true })
+@injectable()
 export class AnimeCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {
-  private readonly DEFAULT_VALUE = "N/A";
-
-  constructor(private readonly jikanService: JikanService) {
+  constructor(
+    @inject(JikanService) private readonly jikanService: JikanService,
+    @inject(TranslationService) private readonly translate: TranslationService
+  ) {
     super();
   }
 
@@ -18,7 +20,7 @@ export class AnimeCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInt
     const animeData = await this.jikanService.getAnimeDetails(animeName, true);
     if (!animeData) {
       await interaction.reply({
-        content: `No anime was found with the title: ${animeName}`
+        content: this.translate.t("CMD_ANIME_NOT_FOUND", { title: animeName })
       });
       return;
     }
@@ -30,59 +32,64 @@ export class AnimeCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInt
   }
 
   private buildAnimeEmbed(interaction: ChatInputCommandInteraction, animeData: Anime) {
+    const defaultValue = this.translate.t("COMMON_NOT_AVAILABLE");
     const synopsis =
       animeData.synopsis.length > 450
         ? animeData.synopsis.substring(0, 450) + "..."
         : animeData.synopsis;
     const genres = animeData.genres
       ? animeData.genres.map((genre) => genre.name).join(", ")
-      : this.DEFAULT_VALUE;
+      : defaultValue;
     const studios = animeData.studios
       ? animeData.studios.map((studio) => studio.name).join(", ")
-      : this.DEFAULT_VALUE;
+      : defaultValue;
 
     const embed = new EmbedBuilder()
-      .setTitle(animeData.title || this.DEFAULT_VALUE)
+      .setTitle(animeData.title || defaultValue)
       .setURL(animeData.url || "#")
       .setDescription(
-        `**English Title:** ${animeData.title_english || this.DEFAULT_VALUE}
-        \n**Synopsis:** ${synopsis}
-        \n**Trailer:** ${animeData.trailer?.url || this.DEFAULT_VALUE}`
+        `**${this.translate.t("CMD_ANIME_DESCRIPTION_ENGLISH_TITLE")}:** ${
+          animeData.title_english || defaultValue
+        }
+        \n**${this.translate.t("CMD_ANIME_DESCRIPTION_SYNOPSIS")}:** ${synopsis}
+        \n**${this.translate.t("CMD_ANIME_DESCRIPTION_TRAILER")}:** ${
+          animeData.trailer?.url || defaultValue
+        }`
       )
       .setColor(0x00ff00)
       .setTimestamp()
       .setFooter({
-        text: `Requested by ${interaction.user.username}`,
+        text: this.translate.t("COMMON_REQUESTED_BY", { username: interaction.user.username }),
         iconURL: interaction.user.displayAvatarURL()
       })
       .addFields(
         {
-          name: "Episodes",
-          value: animeData.episodes?.toString() || this.DEFAULT_VALUE,
+          name: this.translate.t("CMD_ANIME_FIELD_EPISODES"),
+          value: animeData.episodes?.toString() || defaultValue,
           inline: true
         },
         {
-          name: "Type | Status",
+          name: this.translate.t("CMD_ANIME_FIELD_TYPE_STATUS"),
           value: `${animeData.type} | ${animeData.status}`,
           inline: true
         },
         {
-          name: "Score | Rank",
-          value: `${animeData.score || this.DEFAULT_VALUE} | #${animeData.rank || this.DEFAULT_VALUE}`,
+          name: this.translate.t("CMD_ANIME_FIELD_SCORE_RANK"),
+          value: `${animeData.score || defaultValue} | #${animeData.rank || defaultValue}`,
           inline: true
         },
         {
-          name: "Genre(s)",
+          name: this.translate.t("CMD_ANIME_FIELD_GENRES"),
           value: genres,
           inline: true
         },
         {
-          name: "Aired",
-          value: `${animeData.aired?.prop?.from?.year || this.DEFAULT_VALUE} | ${animeData.season}`,
+          name: this.translate.t("CMD_ANIME_FIELD_AIRED"),
+          value: `${animeData.aired?.prop?.from?.year || defaultValue} | ${animeData.season}`,
           inline: true
         },
         {
-          name: "Studio(s)",
+          name: this.translate.t("CMD_ANIME_FIELD_STUDIOS"),
           value: studios,
           inline: true
         }

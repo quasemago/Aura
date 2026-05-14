@@ -1,13 +1,13 @@
 services:
-  cache:
+  bot-cache:
     container_name: redis-cache
     image: redis:latest
     restart: unless-stopped
-    command: ["redis-server", "--bind", "cache", "--port", "6379", "--appendonly", "yes"]
+    command: ["redis-server", "--bind", "bot-cache", "--port", "6379", "--appendonly", "yes"]
     ports:
       - "6379:6379"
     volumes:
-      - cache:/data
+      - cache-data:/data
     networks:
       - auranetwork
   bot:
@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
     environment:
       LOG_LEVEL: ${LOG_LEVEL}
-      REDIS_HOST: cache
+      REDIS_HOST: ${REDIS_HOST:-bot-cache}
       REDIS_PORT: 6379
       REDIS_TTL: ${REDIS_TTL}
       BOT_ID: ${BOT_ID}
@@ -24,16 +24,16 @@ services:
       BOT_OWNERID: ${BOT_OWNERID}
       BOT_PRESENCE_TYPE: ${BOT_PRESENCE_TYPE}
       BOT_PRESENCE_MSG: ${BOT_PRESENCE_MSG}
+      BOT_DEFAULT_LANGUAGE: ${BOT_DEFAULT_LANGUAGE}
     volumes:
       - ${LOGS_PATH}:/app/logs
     networks:
       - auranetwork
     depends_on:
-      - cache
+      - bot-cache
 
 volumes:
-  cache:
-    driver: local
+  cache-data:
 
 networks:
   auranetwork:

@@ -1,14 +1,14 @@
 import * as Types from "@/infrastructure/config/types";
 import * as dotenv from "dotenv";
+import { inject, injectable } from "inversify";
 import { MaybeNil, MaybeUndefined } from "tsdef";
-import { Inject, Service } from "typedi";
 import { Logger } from "winston";
 
 dotenv.config();
 
-@Service()
+@injectable()
 export class Settings {
-  constructor(@Inject(Types.Logger) private readonly logger: Logger) {}
+  constructor(@inject(Types.Logger) private readonly logger: Logger) {}
 
   // TODO: Make the version dynamic.
   public getBotVersion(): string {
@@ -32,11 +32,15 @@ export class Settings {
   }
 
   public getRedisRepositoryHost(): string {
-    return this.assertAndReturnSetting("REDIS_HOST", "localhost");
+    return this.assertAndReturnSetting("REDIS_HOST");
   }
 
   public getRedisRepositoryDefaultTTL(): number {
     return Number(this.assertAndReturnSetting("REDIS_TTL", "3600"));
+  }
+
+  public getBotDefaultLanguage(): string {
+    return this.assertAndReturnSetting("BOT_DEFAULT_LANGUAGE", "en");
   }
 
   private assertAndReturnSetting(settingName: string, defaultValue?: string): string {

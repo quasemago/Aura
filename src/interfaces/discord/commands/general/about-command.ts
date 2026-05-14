@@ -1,15 +1,19 @@
 import { AboutCommandUseCase } from "@/application/usecases/general/about-command-usecase";
+import { TranslationService } from "@/infrastructure/i18n/translation-service";
 import { DiscordGuildCommandCategory } from "@/interfaces/discord/types/i-command";
 import type { ChatInputCommandInteraction } from "discord.js";
-import { Service } from "typedi";
+import { inject, injectable } from "inversify";
 import { BaseCommand } from "../base-command";
 
-@Service({ transient: true })
+@injectable()
 export class AboutCommand extends BaseCommand {
-  constructor(private readonly aboutCommandUseCase: AboutCommandUseCase) {
+  constructor(
+    @inject(AboutCommandUseCase) private readonly aboutCommandUseCase: AboutCommandUseCase,
+    @inject(TranslationService) translate: TranslationService
+  ) {
     super({
-      name: "about",
-      description: "Help command with information about the bot.",
+      name: translate.t("CMD_ABOUT_NAME"),
+      description: translate.t("CMD_ABOUT_DESCRIPTION"),
       category: DiscordGuildCommandCategory.GENERAL
     });
   }

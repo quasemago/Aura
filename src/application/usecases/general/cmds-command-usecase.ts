@@ -1,49 +1,56 @@
 import { DiscordClient } from "@/infrastructure/discord/client";
-import { IDiscordGuildCommand } from "@/interfaces/discord/types/i-command";
+import { TranslationService } from "@/infrastructure/i18n/translation-service";
+import {
+  DiscordGuildCommandCategory,
+  IDiscordGuildCommand
+} from "@/interfaces/discord/types/i-command";
 import {
   ChatInputCommandInteraction,
   CommandInteraction,
   EmbedBuilder,
   MessageFlags
 } from "discord.js";
-import { Service } from "typedi";
+import { inject, injectable } from "inversify";
 import { validateUserPermissions } from "../../utils";
 import { AbstractBaseUseCase } from "../base-usecase";
 
-@Service({ transient: true })
+@injectable()
 export class CmdsCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInteraction, void> {
+  constructor(@inject(TranslationService) private readonly translate: TranslationService) {
+    super();
+  }
+
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const commandList = this.getCommandListByCategory(interaction);
     if (commandList === undefined) {
       await interaction.reply({
-        content: "No commands are currently available.",
+        content: this.translate.t("CMD_CMDS_NO_COMMANDS"),
         flags: MessageFlags.Ephemeral
       });
       return;
     }
 
     const embed = new EmbedBuilder()
-      .setTitle(`🤖 ${interaction.client.user.displayName} - Command List`)
-      .setDescription(
-        "Aura is a Discord bot that provides a variety of features to enhance your server."
+      .setTitle(
+        `🤖 ${this.translate.t("CMD_CMDS_TITLE", { botName: interaction.client.user.displayName })}`
       )
+      .setDescription(this.translate.t("CMD_CMDS_DESCRIPTION_TEXT"))
       .setColor(0x0099ff)
       .setThumbnail(interaction.client.user.displayAvatarURL())
       .setTimestamp()
       .setFooter({
-        text: `Requested by ${interaction.user.username}`,
+        text: this.translate.t("COMMON_REQUESTED_BY", { username: interaction.user.username }),
         iconURL: interaction.user.displayAvatarURL()
       });
 
     for (const [category, commands] of Object.entries(commandList)) {
-      const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
       const commandNames = commands
         .map((cmd) => `- \`\`/${cmd.data.name}\`\` - ${cmd.data.description}`)
         .join("\n");
 
       embed.addFields({
-        name: categoryName,
-        value: commandNames || "No commands available in this category.",
+        name: this.translateCategory(category),
+        value: commandNames || this.translate.t("CMD_CMDS_NO_COMMANDS_IN_CATEGORY"),
         inline: false
       });
     }
@@ -52,6 +59,16 @@ export class CmdsCommandUseCase extends AbstractBaseUseCase<ChatInputCommandInte
       embeds: [embed],
       flags: MessageFlags.Ephemeral
     });
+  }
+
+  private translateCategory(category: string): string {
+    const categoryKeyByName: Record<string, string> = {
+      [DiscordGuildCommandCategory.NONE]: "CMD_CATEGORY_NONE",
+      [DiscordGuildCommandCategory.GENERAL]: "CMD_CATEGORY_GENERAL",
+      [DiscordGuildCommandCategory.SEARCHES]: "CMD_CATEGORY_SEARCHES"
+    };
+
+    return this.translate.t(categoryKeyByName[category] ?? category);
   }
 
   private getCommandListByCategory(
