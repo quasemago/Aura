@@ -39,9 +39,7 @@ public class MalCommand extends AbstractSlashCommand {
 
     @Override
     public ApplicationCommandRequest getCommand() {
-        return ApplicationCommandRequest.builder()
-                .name(getName())
-                .description(getDescription())
+        return commandBuilder()
                 .addOption(ApplicationCommandOptionData.builder()
                         .name(translate.t("CMD_MAL_OPTION_NAME_NAME"))
                         .description(translate.t("CMD_MAL_OPTION_NAME_DESCRIPTION"))

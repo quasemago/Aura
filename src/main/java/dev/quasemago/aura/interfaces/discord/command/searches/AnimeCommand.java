@@ -39,9 +39,7 @@ public class AnimeCommand extends AbstractSlashCommand {
 
     @Override
     public ApplicationCommandRequest getCommand() {
-        return ApplicationCommandRequest.builder()
-                .name(getName())
-                .description(getDescription())
+        return commandBuilder()
                 .addOption(ApplicationCommandOptionData.builder()
                         .name(translate.t("CMD_ANIME_OPTION_TITLE_NAME"))
                         .description(translate.t("CMD_ANIME_OPTION_TITLE_DESCRIPTION"))

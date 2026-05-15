@@ -1,5 +1,6 @@
 package dev.quasemago.aura.infrastructure.discord.events;
 
+import dev.quasemago.aura.infrastructure.discord.DiscordPermissionService;
 import dev.quasemago.aura.infrastructure.i18n.TranslationService;
 import dev.quasemago.aura.interfaces.discord.command.AbstractSlashCommand;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
@@ -16,10 +17,16 @@ public class SlashCommandEventHandler extends AbstractEventListener<ChatInputInt
 
     private final List<AbstractSlashCommand> commands;
     private final TranslationService translate;
+    private final DiscordPermissionService permissionService;
 
-    public SlashCommandEventHandler(List<AbstractSlashCommand> commands, TranslationService translate) {
+    public SlashCommandEventHandler(
+            List<AbstractSlashCommand> commands,
+            TranslationService translate,
+            DiscordPermissionService permissionService
+    ) {
         this.commands = commands;
         this.translate = translate;
+        this.permissionService = permissionService;
     }
 
     @Override
@@ -36,8 +43,15 @@ public class SlashCommandEventHandler extends AbstractEventListener<ChatInputInt
         }
 
         var author = event.getInteraction().getUser();
-        return command.get()
-                .execute(event, author)
+        return permissionService.canExecute(event, command.get())
+                .flatMap(canExecute -> {
+                    if (!canExecute) {
+                        return event.reply(translate.t("DISCORD_COMMAND_ERROR_PERMISSION"))
+                                .withEphemeral(true)
+                                .then();
+                    }
+                    return command.get().execute(event, author);
+                })
                 .onErrorResume(error -> {
                     log.error("Error while executing slash command {}", event.getCommandName(), error);
                     return event.reply(translate.t("DISCORD_COMMAND_ERROR_EXECUTION"))

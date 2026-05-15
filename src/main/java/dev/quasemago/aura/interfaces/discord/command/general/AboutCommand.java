@@ -37,10 +37,7 @@ public class AboutCommand extends AbstractSlashCommand {
 
     @Override
     public ApplicationCommandRequest getCommand() {
-        return ApplicationCommandRequest.builder()
-                .name(getName())
-                .description(getDescription())
-                .build();
+        return commandBuilder().build();
     }
 
     @Override

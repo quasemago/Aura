@@ -47,5 +47,6 @@
   "CMD_MAL_FIELD_TOTAL_DAYS": ":page_facing_up: Total | Dias",
   "CMD_MAL_FIELD_MEAN_SCORE": ":bar_chart: Nota media",
   "CMD_MAL_FIELD_LAST_ONLINE": ":date: Ultimo acesso",
-  "DISCORD_COMMAND_ERROR_EXECUTION": "Ocorreu um erro ao executar este comando. Avise um administrador!"
+  "DISCORD_COMMAND_ERROR_EXECUTION": "Ocorreu um erro ao executar este comando. Avise um administrador!",
+  "DISCORD_COMMAND_ERROR_PERMISSION": "Voce nao tem permissao para usar este comando."
 }

@@ -47,5 +47,6 @@
   "CMD_MAL_FIELD_TOTAL_DAYS": ":page_facing_up: Total | Days",
   "CMD_MAL_FIELD_MEAN_SCORE": ":bar_chart: Mean Score",
   "CMD_MAL_FIELD_LAST_ONLINE": ":date: Last Online",
-  "DISCORD_COMMAND_ERROR_EXECUTION": "There was an error while executing this command, report this to an administrator!"
+  "DISCORD_COMMAND_ERROR_EXECUTION": "There was an error while executing this command, report this to an administrator!",
+  "DISCORD_COMMAND_ERROR_PERMISSION": "You do not have permission to use this command."
 }
