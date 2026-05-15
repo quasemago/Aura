@@ -5,9 +5,9 @@ OpenFeign and Redis.
 
 ## Commands
 
-| Command                | Description                                                                                                                |
+| Command (English lang) | Description                                                                                                                |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `/about` or `/ajuda`   | Shows bot information, author, version, and uptime.                                                                        |
+| `/about`               | Shows bot information, author, version, and uptime placeholder.                                                            |
 | `/cmds`                | Lists available commands grouped by category.                                                                              |
 | `/ping`                | Replies with the current Discord websocket latency.                                                                        |
 | `/anime title:<title>` | Searches for an anime on MyAnimeList and returns an embed with synopsis, score, rank, genres, studios, trailer, and image. |
@@ -24,29 +24,37 @@ The active command names and messages come from `BOT_DEFAULT_LANGUAGE`.
 
 ## Environment
 
-Create a `.env` file from `.env.example` and fill in the Discord values:
+Create a `.env` file from `.env.example` and fill in the required Discord values:
+
+| Variable               | Required    | Default     | Description                                                                                                       |
+| ---------------------- | ----------- | ----------- | ----------------------------------------------------------------------------------------------------------------- |
+| `BOT_ID`               | Yes         | -           | Discord application client ID used to register slash commands.                                                    |
+| `BOT_TOKEN`            | Yes         | -           | Discord bot token used to log in and register commands.                                                           |
+| `BOT_PRESENCE_MSG`     | No          | `Discord`   | Activity text shown in the bot presence.                                                                          |
+| `BOT_PRESENCE_TYPE`    | No          | `0`         | Discord activity type. `0` Playing, `1` Streaming, `2` Listening, `3` Watching, `4` Custom Status, `5` Competing. |
+| `BOT_DEFAULT_LANGUAGE` | No          | `en`        | Locale used for command descriptions and bot messages. Available locales live in `src/main/resources/locales`.    |
+| `LOG_LEVEL`            | No          | `INFO`      | Root log level.                                                                                                   |
+| `LOGS_PATH`            | Docker only | `./logs`    | Host directory mounted to `/app/logs` by Docker Compose.                                                          |
+| `REDIS_HOST`           | No          | `localhost` | Redis host. Docker Compose sets this to `bot-cache`.                                                              |
+| `REDIS_PORT`           | No          | `6379`      | Redis port.                                                                                                       |
+| `REDIS_TTL`            | No          | `3600`      | Cache duration in seconds.                                                                                        |
+
+## Localization
+
+Aura loads translation JSON files via `TranslationService`. Locale files are
+located in `src/main/resources/locales` and are packaged into the JAR during
+the Maven build.
+
+Available locales:
+
+- `en`: English
+- `pt`: Portuguese (Brazil)
+
+Set `BOT_DEFAULT_LANGUAGE` in `.env` to choose the active locale:
 
 ```env
-BOT_ID=
-BOT_TOKEN=
-BOT_DEFAULT_LANGUAGE=en
-REDIS_HOST=localhost
+BOT_DEFAULT_LANGUAGE=pt
 ```
-
-| Variable               | Required    | Default                    | Description                                                                                                       |
-| ---------------------- | ----------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `BOT_ID`               | Yes         | -                          | Discord application client ID used to register slash commands.                                                    |
-| `BOT_TOKEN`            | Yes         | -                          | Discord bot token used to log in and register commands.                                                           |
-| `BOT_PRESENCE_MSG`     | No          | `Discord`                  | Activity text shown in the bot presence.                                                                          |
-| `BOT_PRESENCE_TYPE`    | No          | `0`                        | Discord activity type. `0` Playing, `1` Streaming, `2` Listening, `3` Watching, `4` Custom Status, `5` Competing. |
-| `BOT_DEFAULT_LANGUAGE` | No          | `en`                       | Locale used for command descriptions and bot messages. Available locales live in `src/main/resources/locales`.    |
-| `AURA_VERSION`         | No          | `1.0.0`                    | Version shown by the about command and used in the Jikan User-Agent.                                              |
-| `LOG_LEVEL`            | No          | `INFO`                     | Root log level.                                                                                                   |
-| `LOGS_PATH`            | Docker only | `./logs`                   | Host directory mounted to `/app/logs` by Docker Compose.                                                          |
-| `REDIS_HOST`           | No          | `localhost`                | Redis host. Docker Compose sets this to `bot-cache`.                                                              |
-| `REDIS_PORT`           | No          | `6379`                     | Redis port.                                                                                                       |
-| `REDIS_TTL`            | No          | `3600`                     | Cache duration in seconds.                                                                                        |
-| `JIKAN_API_URL`        | No          | `https://api.jikan.moe/v4` | Base URL used by the OpenFeign Jikan client.                                                                      |
 
 ## Running Locally
 
