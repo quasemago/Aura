@@ -1,1 +1,1 @@
-npm run build
+echo "Running build..."

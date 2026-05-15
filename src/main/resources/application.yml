@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: aura
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
+  file:
+    name: logs/aura.log
+
+aura:
+  bot:
+    id: ${BOT_ID:}
+    token: ${BOT_TOKEN:}
+    owner-id: ${BOT_OWNERID:}
+    presence-type: ${BOT_PRESENCE_TYPE:0}
+    presence-message: ${BOT_PRESENCE_MSG:Discord}
+    default-language: ${BOT_DEFAULT_LANGUAGE:en}
+    version: ${AURA_VERSION:1.0.0}
+  cache:
+    host: ${REDIS_HOST:localhost}
+    port: 6379
+    ttl-seconds: ${REDIS_TTL:3600}
+  jikan:
+    api-url: https://api.jikan.moe/v4
+    user-agent: AuraDiscordBot/${AURA_VERSION:1.0.0}

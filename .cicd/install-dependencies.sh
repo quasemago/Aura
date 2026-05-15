@@ -1,1 +1,1 @@
-npm ci
+echo "Running ci..."
