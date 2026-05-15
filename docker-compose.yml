@@ -3,7 +3,7 @@ services:
     container_name: redis-cache
     image: redis:latest
     restart: unless-stopped
-    command: ["redis-server", "--bind", "bot-cache", "--port", "6379", "--appendonly", "yes"]
+    command: ["redis-server", "--appendonly", "yes"]
     ports:
       - "6379:6379"
     volumes:
@@ -15,18 +15,19 @@ services:
     build: .
     restart: unless-stopped
     environment:
-      LOG_LEVEL: ${LOG_LEVEL}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
       REDIS_HOST: ${REDIS_HOST:-bot-cache}
-      REDIS_PORT: 6379
-      REDIS_TTL: ${REDIS_TTL}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      REDIS_TTL: ${REDIS_TTL:-3600}
       BOT_ID: ${BOT_ID}
       BOT_TOKEN: ${BOT_TOKEN}
       BOT_OWNERID: ${BOT_OWNERID}
-      BOT_PRESENCE_TYPE: ${BOT_PRESENCE_TYPE}
-      BOT_PRESENCE_MSG: ${BOT_PRESENCE_MSG}
-      BOT_DEFAULT_LANGUAGE: ${BOT_DEFAULT_LANGUAGE}
+      BOT_PRESENCE_TYPE: ${BOT_PRESENCE_TYPE:-0}
+      BOT_PRESENCE_MSG: ${BOT_PRESENCE_MSG:-Discord}
+      BOT_DEFAULT_LANGUAGE: ${BOT_DEFAULT_LANGUAGE:-en}
+      JIKAN_API_URL: ${JIKAN_API_URL:-https://api.jikan.moe/v4}
     volumes:
-      - ${LOGS_PATH}:/app/logs
+      - ${LOGS_PATH:-./logs}:/app/logs
     networks:
       - auranetwork
     depends_on:

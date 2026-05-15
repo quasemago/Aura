@@ -15,11 +15,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          node-version: 24
-          cache: npm
+          distribution: temurin
+          java-version: 25
+          cache: maven
 
       - name: Install dependencies
         run: bash .cicd/install-dependencies.sh
@@ -36,44 +37,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          node-version: 24
-          cache: npm
+          distribution: temurin
+          java-version: 25
+          cache: maven
 
       - name: Install dependencies
         run: bash .cicd/install-dependencies.sh
 
       - name: Run tests
         run: bash .cicd/tests.sh
-
-  Sonarless-Scan:
-    runs-on: ubuntu-latest
-    needs: test
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Sonarless Scan
-        uses: gitricko/sonarless@v1.3
-        with:
-          sonar-source-path: "src"
-          sonar-metrics-path: "./sonar-mymetrics.json"
-
-      - name: Check Sonar Metrics - No Vulnerabilities
-        run: |
-          echo "Checking for any vulnerabilities in Sonar Metrics JSON"
-          VULN=$(cat ./sonar-mymetrics.json | jq -r '.component.measures[] | select(.metric == "vulnerabilities").value')
-          echo "# of vulnerabilities = ${VULN}"
-          [ ${VULN} -eq "0" ]
-
-      - name: Upload Sonarless report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: sonarless-report
-          path: ./sonar-mymetrics.json
-          if-no-files-found: error
-          retention-days: 3

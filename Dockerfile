@@ -1,17 +1,15 @@
-FROM node:24-alpine AS builder
+FROM maven:3.9-eclipse-temurin-25 AS builder
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+COPY pom.xml .
+RUN mvn -q -DskipTests dependency:go-offline
 
-COPY . .
-RUN npm run build
+COPY src ./src
+RUN mvn -q -DskipTests package
 
-FROM node:24-alpine
+FROM azul/zulu-openjdk:25-jre
 WORKDIR /app
 
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/artifacts/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/target/aura-1.0.0.jar ./app.jar
 
-CMD ["node", "dist/index.js"]
+CMD ["java", "-jar", "app.jar"]
