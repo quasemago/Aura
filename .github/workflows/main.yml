@@ -15,11 +15,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          node-version: 24
-          cache: npm
+          distribution: temurin
+          java-version: 25
+          cache: maven
 
       - name: Install dependencies
         run: bash .cicd/install-dependencies.sh
@@ -36,11 +37,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          node-version: 24
-          cache: npm
+          distribution: temurin
+          java-version: 25
+          cache: maven
 
       - name: Install dependencies
         run: bash .cicd/install-dependencies.sh
@@ -59,7 +61,7 @@ jobs:
       - name: Sonarless Scan
         uses: gitricko/sonarless@v1.3
         with:
-          sonar-source-path: "src"
+          sonar-source-path: "src/main/java"
           sonar-metrics-path: "./sonar-mymetrics.json"
 
       - name: Check Sonar Metrics - No Vulnerabilities
