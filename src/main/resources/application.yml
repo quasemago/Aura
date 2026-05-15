@@ -16,7 +16,7 @@ aura:
     presence-type: ${BOT_PRESENCE_TYPE:0}
     presence-message: ${BOT_PRESENCE_MSG:Discord}
     default-language: ${BOT_DEFAULT_LANGUAGE:en}
-    version: 1.0.0
+    version: 2.0.0
   cache:
     host: ${REDIS_HOST:localhost}
     port: 6379

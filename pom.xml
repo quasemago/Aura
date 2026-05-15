@@ -13,7 +13,7 @@
 
     <groupId>dev.quasemago</groupId>
     <artifactId>aura</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <name>Aura</name>
     <description>Discord bot built with Java, Spring Boot, Discord4J, OpenFeign and Redis.</description>
 
