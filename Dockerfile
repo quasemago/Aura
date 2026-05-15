@@ -10,6 +10,6 @@ RUN mvn -q -DskipTests package
 FROM azul/zulu-openjdk:25-jre
 WORKDIR /app
 
-COPY --from=builder /app/target/aura-1.0.0.jar ./app.jar
+COPY --from=builder /app/target/aura-*.jar ./app.jar
 
 CMD ["java", "-jar", "app.jar"]
