@@ -22,5 +22,5 @@ aura:
     port: 6379
     ttl-seconds: ${REDIS_TTL:3600}
   jikan:
-    api-url: https://api.jikan.moe/v4
+    api-url: https://api.tenrai.org/v1
     user-agent: AuraDiscordBot
