@@ -36,7 +36,9 @@ public class AnimeCommandUseCase {
                                 .map(value -> event.editReply()
                                         .withEmbeds(buildAnimeEmbed(author, value))
                                         .then())
-                                .orElseGet(() -> event.editReply(translate.t("CMD_ANIME_NOT_FOUND", Map.of("title", title))).then())));
+                                .orElseGet(() -> event
+                                        .editReply(translate.t("CMD_ANIME_NOT_FOUND", Map.of("title", title)))
+                                        .then())));
     }
 
     private EmbedCreateSpec buildAnimeEmbed(User author, Anime anime) {
@@ -66,25 +68,23 @@ public class AnimeCommandUseCase {
                         translate.t("CMD_ANIME_DESCRIPTION_SYNOPSIS"),
                         synopsis,
                         translate.t("CMD_ANIME_DESCRIPTION_TRAILER"),
-                        DiscordHelpers.valueOrDefault(trailerUrl, defaultValue)
-                ))
+                        DiscordHelpers.valueOrDefault(trailerUrl, defaultValue)))
                 .color(Color.of(0x00ff00))
                 .timestamp(Instant.now())
-                .footer(translate.t("COMMON_REQUESTED_BY", Map.of("username", author.getUsername())), author.getAvatarUrl())
-                .addField(translate.t("CMD_ANIME_FIELD_EPISODES"), DiscordHelpers.valueOrDefault(anime.episodes(), defaultValue), true)
+                .footer(translate.t("COMMON_REQUESTED_BY", Map.of("username", author.getUsername())),
+                        author.getAvatarUrl())
+                .addField(translate.t("CMD_ANIME_FIELD_EPISODES"),
+                        DiscordHelpers.valueOrDefault(anime.episodes(), defaultValue), true)
                 .addField(translate.t("CMD_ANIME_FIELD_TYPE_STATUS"), "%s | %s".formatted(
                         DiscordHelpers.valueOrDefault(anime.type(), defaultValue),
-                        DiscordHelpers.valueOrDefault(anime.status(), defaultValue)
-                ), true)
+                        DiscordHelpers.valueOrDefault(anime.status(), defaultValue)), true)
                 .addField(translate.t("CMD_ANIME_FIELD_SCORE_RANK"), "%s | #%s".formatted(
                         DiscordHelpers.valueOrDefault(anime.score(), defaultValue),
-                        DiscordHelpers.valueOrDefault(anime.rank(), defaultValue)
-                ), true)
+                        DiscordHelpers.valueOrDefault(anime.rank(), defaultValue)), true)
                 .addField(translate.t("CMD_ANIME_FIELD_GENRES"), genres, true)
                 .addField(translate.t("CMD_ANIME_FIELD_AIRED"), "%s | %s".formatted(
                         DiscordHelpers.valueOrDefault(airedYear, defaultValue),
-                        DiscordHelpers.valueOrDefault(anime.season(), defaultValue)
-                ), true)
+                        DiscordHelpers.valueOrDefault(anime.season(), defaultValue)), true)
                 .addField(translate.t("CMD_ANIME_FIELD_STUDIOS"), studios, true);
 
         if (imageUrl != null && !imageUrl.isBlank()) {

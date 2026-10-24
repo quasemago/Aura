@@ -21,8 +21,7 @@ public class RedisCacheService {
     public RedisCacheService(
             StringRedisTemplate redisTemplate,
             ObjectMapper objectMapper,
-            AuraProperties properties
-    ) {
+            AuraProperties properties) {
         this.redisTemplate = redisTemplate;
         this.objectMapper = objectMapper;
         this.properties = properties;
@@ -47,8 +46,7 @@ public class RedisCacheService {
             redisTemplate.opsForValue().set(
                     key,
                     serialized,
-                    Duration.ofSeconds(properties.getCache().getTtlSeconds())
-            );
+                    Duration.ofSeconds(properties.getCache().getTtlSeconds()));
         } catch (Exception error) {
             log.warn("Could not write key {} to Redis cache", key, error);
         }

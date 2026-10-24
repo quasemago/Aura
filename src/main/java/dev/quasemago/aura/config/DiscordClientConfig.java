@@ -30,8 +30,7 @@ public class DiscordClientConfig {
                 .setInitialPresence(shard -> ClientPresence.online(ClientActivity.of(
                         Activity.Type.of(bot.getPresenceType()),
                         bot.getPresenceMessage(),
-                        null
-                )))
+                        null)))
                 .setGatewayReactorResources(reactorResources -> GatewayReactorResources.builder(reactorResources)
                         .httpClient(HttpClient.create(ConnectionProvider.newConnection())
                                 .compress(true)

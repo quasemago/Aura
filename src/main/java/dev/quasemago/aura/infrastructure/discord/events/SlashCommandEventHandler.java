@@ -22,8 +22,7 @@ public class SlashCommandEventHandler extends AbstractEventListener<ChatInputInt
     public SlashCommandEventHandler(
             List<AbstractSlashCommand> commands,
             TranslationService translate,
-            DiscordPermissionService permissionService
-    ) {
+            DiscordPermissionService permissionService) {
         this.commands = commands;
         this.translate = translate;
         this.permissionService = permissionService;
@@ -56,9 +55,10 @@ public class SlashCommandEventHandler extends AbstractEventListener<ChatInputInt
                     log.error("Error while executing slash command {}", event.getCommandName(), error);
                     return event.reply(translate.t("DISCORD_COMMAND_ERROR_EXECUTION"))
                             .withEphemeral(true)
-                            .onErrorResume(replyError -> event.createFollowup(translate.t("DISCORD_COMMAND_ERROR_EXECUTION"))
-                                    .withEphemeral(true)
-                                    .then());
+                            .onErrorResume(
+                                    replyError -> event.createFollowup(translate.t("DISCORD_COMMAND_ERROR_EXECUTION"))
+                                            .withEphemeral(true)
+                                            .then());
                 });
     }
 }

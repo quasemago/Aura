@@ -30,8 +30,7 @@ public class DiscordService {
             RestClient restClient,
             GatewayDiscordClient gatewayClient,
             List<AbstractSlashCommand> commands,
-            List<GenericEventListener<? extends Event>> events
-    ) {
+            List<GenericEventListener<? extends Event>> events) {
         this.restClient = restClient;
         this.gatewayClient = gatewayClient;
         this.commands = commands;

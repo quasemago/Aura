@@ -25,8 +25,7 @@ public class AboutCommandUseCase {
             GatewayDiscordClient gatewayClient,
             AuraProperties properties,
             TranslationService translate,
-            BotRuntime botRuntime
-    ) {
+            BotRuntime botRuntime) {
         this.gatewayClient = gatewayClient;
         this.properties = properties;
         this.translate = translate;
@@ -42,10 +41,12 @@ public class AboutCommandUseCase {
                             .color(Color.of(0x0099ff))
                             .thumbnail(bot.getAvatarUrl())
                             .timestamp(Instant.now())
-                            .addField(translate.t("CMD_ABOUT_FIELD_CREATED_BY"), "quasemago [(Github)](https://github.com/quasemago)", true)
+                            .addField(translate.t("CMD_ABOUT_FIELD_CREATED_BY"),
+                                    "quasemago [(Github)](https://github.com/quasemago)", true)
                             .addField(translate.t("CMD_ABOUT_FIELD_VERSION"), properties.getBot().getVersion(), true)
                             .addField(translate.t("CMD_ABOUT_FIELD_UPTIME"), botRuntime.formattedUptime(), true)
-                            .footer(translate.t("COMMON_REQUESTED_BY", Map.of("username", author.getUsername())), author.getAvatarUrl())
+                            .footer(translate.t("COMMON_REQUESTED_BY", Map.of("username", author.getUsername())),
+                                    author.getAvatarUrl())
                             .build();
 
                     return event.reply()

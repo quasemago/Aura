@@ -17,12 +17,11 @@ public final class DiscordHelpers {
 
     public static Mono<ApplicationCommandInteractionOptionValue> getRequiredOption(
             ChatInputInteractionEvent event,
-            String optionName
-    ) {
+            String optionName) {
         return Mono.justOrEmpty(event.getInteraction()
-                        .getCommandInteraction()
-                        .flatMap(interaction -> interaction.getOption(optionName))
-                        .flatMap(ApplicationCommandInteractionOption::getValue))
+                .getCommandInteraction()
+                .flatMap(interaction -> interaction.getOption(optionName))
+                .flatMap(ApplicationCommandInteractionOption::getValue))
                 .switchIfEmpty(Mono.error(new IllegalArgumentException(optionName + " option is required")));
     }
 

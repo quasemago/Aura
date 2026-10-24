@@ -31,8 +31,7 @@ public class CmdsCommandUseCase {
             ObjectProvider<AbstractSlashCommand> commands,
             GatewayDiscordClient gatewayClient,
             TranslationService translate,
-            DiscordPermissionService permissionService
-    ) {
+            DiscordPermissionService permissionService) {
         this.commands = commands;
         this.gatewayClient = gatewayClient;
         this.translate = translate;
@@ -62,12 +61,14 @@ public class CmdsCommandUseCase {
                     return gatewayClient.getSelf()
                             .flatMap(bot -> {
                                 var embed = EmbedCreateSpec.builder()
-                                        .title("🤖 " + translate.t("CMD_CMDS_TITLE", Map.of("botName", bot.getUsername())))
+                                        .title("🤖 "
+                                                + translate.t("CMD_CMDS_TITLE", Map.of("botName", bot.getUsername())))
                                         .description(translate.t("CMD_CMDS_DESCRIPTION_TEXT"))
                                         .color(Color.of(0x0099ff))
                                         .thumbnail(bot.getAvatarUrl())
                                         .timestamp(Instant.now())
-                                        .footer(translate.t("COMMON_REQUESTED_BY", Map.of("username", author.getUsername())), author.getAvatarUrl());
+                                        .footer(translate.t("COMMON_REQUESTED_BY",
+                                                Map.of("username", author.getUsername())), author.getAvatarUrl());
 
                                 addCategoryFields(embed, commandsByCategory);
 
@@ -80,8 +81,7 @@ public class CmdsCommandUseCase {
 
     private void addCategoryFields(
             EmbedCreateSpec.Builder embed,
-            Map<CommandCategory, List<AbstractSlashCommand>> commandsByCategory
-    ) {
+            Map<CommandCategory, List<AbstractSlashCommand>> commandsByCategory) {
         commandsByCategory.forEach((category, categoryCommands) -> {
             var commandNames = categoryCommands.stream()
                     .map(command -> "- `/%s` - %s".formatted(command.getName(), command.getDescription()))
@@ -90,8 +90,7 @@ public class CmdsCommandUseCase {
             embed.addField(
                     translate.t(category.getTranslationKey()),
                     commandNames.isBlank() ? translate.t("CMD_CMDS_NO_COMMANDS_IN_CATEGORY") : commandNames,
-                    false
-            );
+                    false);
         });
     }
 }

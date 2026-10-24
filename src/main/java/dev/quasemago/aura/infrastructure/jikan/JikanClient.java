@@ -14,8 +14,7 @@ public interface JikanClient {
     AnimeSearchResponse searchAnime(
             @RequestParam("q") String title,
             @RequestParam("limit") int limit,
-            @RequestParam("sfw") boolean sfw
-    );
+            @RequestParam("sfw") boolean sfw);
 
     @GetMapping("/users/{username}/full")
     MalSearchResponse getUserProfile(@PathVariable("username") String username);

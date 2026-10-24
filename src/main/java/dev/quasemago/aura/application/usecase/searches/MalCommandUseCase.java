@@ -37,7 +37,9 @@ public class MalCommandUseCase {
                                 .map(value -> event.editReply()
                                         .withEmbeds(buildUserProfileEmbed(author, value))
                                         .then())
-                                .orElseGet(() -> event.editReply(translate.t("CMD_MAL_NOT_FOUND", Map.of("name", username))).then())));
+                                .orElseGet(() -> event
+                                        .editReply(translate.t("CMD_MAL_NOT_FOUND", Map.of("name", username)))
+                                        .then())));
     }
 
     private EmbedCreateSpec buildUserProfileEmbed(User author, UserProfile userProfile) {
@@ -50,23 +52,29 @@ public class MalCommandUseCase {
         var embed = EmbedCreateSpec.builder()
                 .title(translate.t("CMD_MAL_PROFILE_TITLE", Map.of(
                         "username",
-                        DiscordHelpers.valueOrDefault(userProfile.username(), defaultValue)
-                )))
+                        DiscordHelpers.valueOrDefault(userProfile.username(), defaultValue))))
                 .url(DiscordHelpers.valueOrDefault(userProfile.url(), "#"))
                 .color(Color.of(0x00ff00))
                 .timestamp(Instant.now())
-                .footer(translate.t("COMMON_REQUESTED_BY", Map.of("username", author.getUsername())), author.getAvatarUrl())
-                .addField(translate.t("CMD_MAL_FIELD_CURRENTLY_WATCHING"), stat(animeStats, AnimeStats::watching, defaultValue), true)
-                .addField(translate.t("CMD_MAL_FIELD_COMPLETED"), stat(animeStats, AnimeStats::completed, defaultValue), true)
-                .addField(translate.t("CMD_MAL_FIELD_ON_HOLD"), stat(animeStats, AnimeStats::onHold, defaultValue), true)
-                .addField(translate.t("CMD_MAL_FIELD_DROPPED"), stat(animeStats, AnimeStats::dropped, defaultValue), true)
-                .addField(translate.t("CMD_MAL_FIELD_PLAN_TO_WATCH"), stat(animeStats, AnimeStats::planToWatch, defaultValue), true)
+                .footer(translate.t("COMMON_REQUESTED_BY", Map.of("username", author.getUsername())),
+                        author.getAvatarUrl())
+                .addField(translate.t("CMD_MAL_FIELD_CURRENTLY_WATCHING"),
+                        stat(animeStats, AnimeStats::watching, defaultValue), true)
+                .addField(translate.t("CMD_MAL_FIELD_COMPLETED"), stat(animeStats, AnimeStats::completed, defaultValue),
+                        true)
+                .addField(translate.t("CMD_MAL_FIELD_ON_HOLD"), stat(animeStats, AnimeStats::onHold, defaultValue),
+                        true)
+                .addField(translate.t("CMD_MAL_FIELD_DROPPED"), stat(animeStats, AnimeStats::dropped, defaultValue),
+                        true)
+                .addField(translate.t("CMD_MAL_FIELD_PLAN_TO_WATCH"),
+                        stat(animeStats, AnimeStats::planToWatch, defaultValue), true)
                 .addField(translate.t("CMD_MAL_FIELD_TOTAL_DAYS"), "%s | %s".formatted(
                         stat(animeStats, AnimeStats::totalEntries, defaultValue),
-                        stat(animeStats, AnimeStats::daysWatched, defaultValue)
-                ), true)
-                .addField(translate.t("CMD_MAL_FIELD_MEAN_SCORE"), stat(animeStats, AnimeStats::meanScore, defaultValue), true)
-                .addField(translate.t("CMD_MAL_FIELD_LAST_ONLINE"), DiscordHelpers.valueOrDefault(userProfile.lastOnline(), defaultValue), true);
+                        stat(animeStats, AnimeStats::daysWatched, defaultValue)), true)
+                .addField(translate.t("CMD_MAL_FIELD_MEAN_SCORE"),
+                        stat(animeStats, AnimeStats::meanScore, defaultValue), true)
+                .addField(translate.t("CMD_MAL_FIELD_LAST_ONLINE"),
+                        DiscordHelpers.valueOrDefault(userProfile.lastOnline(), defaultValue), true);
 
         if (imageUrl != null && !imageUrl.isBlank()) {
             embed.thumbnail(imageUrl);
